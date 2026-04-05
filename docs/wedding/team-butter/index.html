@@ -81,6 +81,12 @@
     font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase;
   }
   .rsvp-banner strong { color: #fff; font-weight: 500; }
+  .rsvp-banner .sep { display: inline; }
+  .rsvp-banner .mobile-br { display: none; }
+  @media (max-width:480px) {
+    .rsvp-banner .sep { display: none; }
+    .rsvp-banner .mobile-br { display: block; }
+  }
 
   /* ── Hero — deep moss ── */
   .hero {
@@ -503,7 +509,7 @@
 <body>
 
 <div class="rsvp-banner">
-  Please reply by <strong>12 April 2026</strong> &nbsp;·&nbsp; Scroll down to RSVP
+  Please reply by <strong>12 April 2026</strong><span class="sep"> &nbsp;·&nbsp; </span><br class="mobile-br">Scroll down to RSVP
 </div>
 
 <section class="hero">
@@ -630,13 +636,6 @@
 
     <div class="dc-grid">
 
-            <div class="dc-card">
-        <div class="dc-date">Saturday 30 May</div>
-        <div class="dc-event">Breakfast</div>
-        <span class="dc-code casual">Casual</span>
-        <div class="dc-note">A relaxed morning cooking together before the big day. Come as you are — pyjamas fully accepted.</div>
-      </div>
-
       <div class="dc-card" style="border-top-color:#e8c97a;">
         <div class="dc-date">Saturday 30 May</div>
         <div class="dc-event">Pool Party</div>
@@ -690,7 +689,7 @@
       <div class="guests-section">
         <div class="guests-header">
           <p class="section-label" style="margin-bottom:0.3rem;">Who is coming?</p>
-          <p class="guests-subtext">Please add your plus one &#9825;</p>
+          <p class="guests-subtext">Please add yourself and your plus one &#9825;</p>
         </div>
         <div id="guestList"></div>
         <button type="button" class="btn-add-guest" onclick="addGuest()">+ Add another person</button>

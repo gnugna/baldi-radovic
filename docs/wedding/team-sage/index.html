@@ -81,6 +81,12 @@
     font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase;
   }
   .rsvp-banner strong { color: #fff; font-weight: 500; }
+  .rsvp-banner .sep { display: inline; }
+  .rsvp-banner .mobile-br { display: none; }
+  @media (max-width:480px) {
+    .rsvp-banner .sep { display: none; }
+    .rsvp-banner .mobile-br { display: block; }
+  }
 
   /* ── Hero — deep moss ── */
   .hero {
@@ -503,7 +509,7 @@
 <body>
 
 <div class="rsvp-banner">
-  Please reply by <strong>12 April 2026</strong> &nbsp;·&nbsp; Scroll down to RSVP
+  Please reply by <strong>12 April 2026</strong><span class="sep"> &nbsp;·&nbsp; </span><br class="mobile-br">Scroll down to RSVP
 </div>
 
 <section class="hero">
