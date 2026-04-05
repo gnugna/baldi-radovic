@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonja &amp; Giacomo · Matrimonio</title>
+<link rel="icon" type="image/svg+xml" href="../../logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ════════════════════════════════════════════════
+     PALETTE — Birch / Sage / Fern / Moss  +  Blues
+
+     Birch (parchment):
+       --birch-lt : #f5f0e8   main bg
+       --birch    : #e8dfd0   section fill
+       --birch-dk : #d4c8b4   borders
+
+     Sage (muted green accent):
+       --sage     : #8fa68c
+       --sage-lt  : #b8cbb5
+       --sage-dk  : #6b8568
+
+     Fern (richer green):
+       --fern     : #4d6b52
+       --fern-dk  : #3a5240
+
+     Moss (deep green — hero/schedule):
+       --moss     : #2c3d2e
+       --moss-dk  : #1e2b1f
+
+     Blues (highlight / accent):
+       --azure    : #CDDFE9   soft bg tint
+       --pale-blue: #AEBED5   secondary bg / subtle accents
+       --grey-blue: #859BBA   links, event times, dates
+       --dark-blue: #404D77   strong highlight, focus
+
+     Text:
+       --ink : #222d23
+       --mid : #5a6b58
+  ════════════════════════════════════════════════ */
+  :root {
+    --birch-lt:   #f5f0e8;
+    --birch:      #e8dfd0;
+    --birch-dk:   #d4c8b4;
+    --sage:       #8fa68c;
+    --sage-lt:    #b8cbb5;
+    --sage-dk:    #6b8568;
+    --fern:       #4d6b52;
+    --fern-dk:    #3a5240;
+    --moss:       #2c3d2e;
+    --moss-dk:    #1e2b1f;
+    --azure:      #CDDFE9;
+    --pale-blue:  #AEBED5;
+    --grey-blue:  #859BBA;
+    --dark-blue:  #404D77;
+    --ink:        #222d23;
+    --mid:        #5a6b58;
+    --line:       rgba(143,166,140,0.28);
+    --line-blue:  rgba(133,155,186,0.25);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--birch-lt);
+    color: var(--ink);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Banner ── */
+  .rsvp-banner {
+    background: var(--fern);
+    color: rgba(245,240,232,0.82);
+    text-align: center; padding: 0.78rem 1.5rem;
+    font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase;
+  }
+  .rsvp-banner strong { color: #fff; font-weight: 500; }
+  .rsvp-banner .sep { display: inline; }
+  .rsvp-banner .mobile-br { display: none; }
+  @media (max-width:480px) {
+    .rsvp-banner .sep { display: none; }
+    .rsvp-banner .mobile-br { display: block; }
+  }
+
+  /* ── Hero — deep moss ── */
+  .hero {
+    min-height: 100vh; background: var(--moss);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 3rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 55% at 50% 100%,
+      rgba(77,107,82,0.38) 0%, transparent 65%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 2.2rem;
+    opacity: 0; animation: fadeUp 1s 0.2s ease forwards;
+  }
+  .hero-names {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(3.8rem, 10vw, 7.5rem); line-height: 1;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+    opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
+  }
+  .hero-names em { font-style: italic; color: var(--sage-lt); }
+  .hero-amp {
+    display: block; font-size: 0.5em;
+    color: rgba(232,223,208,0.28); letter-spacing: 0.12em; margin: 0.25em 0;
+  }
+  .hero-date {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+    font-weight: 300; font-style: italic; color: var(--sage-lt); margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp 1s 0.8s ease forwards;
+  }
+  .hero-place {
+    font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(232,223,208,0.38); margin-top: 0.55rem;
+    opacity: 0; animation: fadeUp 1s 1s ease forwards;
+  }
+  .hero-line {
+    width: 1px; height: 5rem;
+    background: linear-gradient(to bottom, transparent, var(--sage), transparent);
+    margin: 3rem auto 0;
+    opacity: 0; animation: fadeUp 1s 1.2s ease forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Layout ── */
+  section { padding: 5rem 1.5rem; }
+  .container { max-width: 780px; margin: 0 auto; }
+  .container-wide { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 300;
+    line-height: 1.15; margin-bottom: 2rem; color: var(--ink);
+  }
+
+  /* ── Welcome — birch ── */
+  .welcome { background: var(--birch); text-align: center; }
+  .welcome p { font-size: 1.08rem; color: var(--mid); max-width: 580px; margin: 0 auto 1.2rem; }
+  .welcome p:last-of-type { margin-bottom: 0; }
+  .welcome strong { color: var(--ink); font-weight: 500; }
+  .welcome-motto {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.85rem; font-style: italic; font-weight: 300;
+    color: var(--dark-blue);
+    max-width: 600px; margin: 0.8rem auto 0; line-height: 1.3; display: block;
+  }
+
+  /* ── Villa — birch-lt ── */
+  .villa { background: var(--birch-lt); }
+  .villa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 2.5rem; }
+  .villa-grid img {
+    width: 100%; height: 240px; object-fit: cover; border-radius: 2px; display: block;
+    transition: transform 0.5s ease, filter 0.3s ease; filter: saturate(0.9);
+  }
+  .villa-grid img:hover { transform: scale(1.02); filter: saturate(1.05); }
+  .villa-grid .wide { grid-column: 1 / -1; height: 380px; }
+  .villa-details { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .detail-card { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+  .detail-card h4 {
+    font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.5rem;
+  }
+  .detail-card p { font-size: 0.92rem; color: var(--mid); }
+  .detail-card a { color: var(--grey-blue); text-decoration: none; }
+  .detail-card a:hover { color: var(--fern); text-decoration: underline; }
+  .accom-note {
+    margin-top: 2rem; background: var(--azure);
+    border-left: 3px solid var(--grey-blue);
+    padding: 1.2rem 1.5rem; border-radius: 0 4px 4px 0;
+    font-size: 0.88rem; color: var(--ink); line-height: 1.65;
+  }
+  .accom-note strong { color: var(--dark-blue); font-weight: 600; }
+
+  /* ── Schedule — deep moss ── */
+  .schedule { background: var(--moss); }
+  .schedule .section-label { color: var(--sage-lt); }
+  .schedule .section-title { color: var(--birch-lt); }
+  .schedule-intro {
+    font-size: 0.85rem; color: rgba(232,223,208,0.35);
+    margin-bottom: 3rem; font-style: italic;
+  }
+  .day-block { margin-bottom: 4rem; }
+  .day-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    border-bottom: 1px solid rgba(143,166,140,0.2);
+    padding-bottom: 0.8rem; margin-bottom: 2rem;
+  }
+  .day-name { font-family: 'Cormorant Garamond', serif; font-size: 2.1rem; font-weight: 300; color: var(--birch-lt); }
+  .day-date { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage-lt); opacity: 0.8; }
+  .day-badge {
+    margin-left: auto; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    background: rgba(143,166,140,0.12); border: 1px solid rgba(143,166,140,0.28);
+    color: var(--sage-lt); padding: 0.3em 0.9em; border-radius: 50px;
+  }
+  .events { display: flex; flex-direction: column; }
+  .event {
+    display: grid; grid-template-columns: 95px 1fr; gap: 0 1.5rem;
+    padding: 1.1rem 0; border-bottom: 1px solid rgba(143,166,140,0.1);
+  }
+  .event:last-child { border-bottom: none; }
+  .event-time { font-size: 0.76rem; letter-spacing: 0.06em; color: rgba(232,223,208,0.5); padding-top: 0.18rem; font-weight: 300; }
+  .event-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--birch-lt); margin-bottom: 0.2rem; }
+  .event-desc { font-size: 0.84rem; color: rgba(232,223,208,0.42); line-height: 1.55; }
+  .event-tag {
+    display: inline-block; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0.18em 0.65em; border-radius: 20px; margin-left: 0.6rem;
+    vertical-align: middle; position: relative; top: -2px;
+  }
+  .tag-formal { background: rgba(64,77,119,0.15); border: 1px solid var(--dark-blue); color: var(--dark-blue); }
+  .tag-casual { background: rgba(143,166,140,0.2); border: 1px solid var(--sage); color: var(--fern-dk); }
+  .tag-ceremony { background: rgba(184,203,181,0.15); border: 1px solid rgba(184,203,181,0.4); color: #d2e8ce; }
+  .tag-party { background: rgba(107,133,104,0.18); border: 1px solid rgba(107,133,104,0.35); color: var(--sage-lt); }
+  .tag-swim { background: #FFEFC3; border: 1px solid #e8c97a; color: #7a6830; }
+  .tag-relax { background: rgba(143,166,140,0.18); border: 1px solid rgba(143,166,140,0.4); color: var(--sage-lt); }
+  .tag-smart { background: rgba(133,155,186,0.12); border: 1px solid rgba(133,155,186,0.3); color: var(--grey-blue); }
+  .day-free-note {
+    background: rgba(77,107,82,0.1); border: 1px solid rgba(143,166,140,0.15);
+    border-radius: 4px; padding: 1.1rem 1.4rem;
+    font-size: 0.84rem; color: rgba(232,223,208,0.45); line-height: 1.6; margin-top: 0.5rem;
+  }
+  .day-free-note strong { color: var(--sage-lt); font-weight: 400; }
+
+  /* ── Dress code section — azure/pale-blue bg ── */
+  .dresscode { background: var(--azure); }
+  .dresscode .section-title { color: var(--ink); }
+  .dresscode-intro {
+    font-size: 1rem; color: var(--fern-dk); line-height: 1.75; margin-bottom: 2.5rem;
+    max-width: 600px;
+  }
+  .dresscode-motto {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.18rem; color: var(--fern);
+    display: block; margin-top: 0.8rem; margin-bottom: 2.5rem; max-width: 600px;
+  }
+  .dc-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+  .dc-card {
+    background: var(--birch-lt);
+    border: 1px solid var(--line-blue);
+    border-top: 3px solid var(--sage);
+    border-radius: 3px; padding: 1.3rem 1.4rem;
+  }
+  .dc-card.blue-top { border-top-color: var(--grey-blue); }
+  .dc-card.dark-top { border-top-color: var(--dark-blue); }
+  .dc-date {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--grey-blue); margin-bottom: 0.3rem; font-weight: 400;
+  }
+  .dc-event {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+    font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.2;
+  }
+  .dc-code {
+    display: inline-block; font-size: 0.62rem; letter-spacing: 0.18em;
+    text-transform: uppercase; padding: 0.22em 0.75em; border-radius: 20px;
+    margin-bottom: 0.55rem; font-weight: 400;
+  }
+  .dc-code.casual   { background: rgba(143,166,140,0.22); border: 1px solid var(--sage); color: var(--fern-dk); font-weight: 500; }
+  .dc-code.elegant  { background: rgba(64,77,119,0.12);  border: 1px solid var(--dark-blue);       color: var(--dark-blue); font-weight: 500; }
+  .dc-code.swim     { background: #FFEFC3;                border: 1px solid #e8c97a;                color: #7a6830; font-weight: 500; }
+  .dc-code.smart    { background: rgba(143,166,140,0.22); border: 1px solid var(--sage);            color: var(--fern-dk); font-weight: 500; }
+  .dc-note { font-size: 0.84rem; color: var(--mid); line-height: 1.5; }
+  .dc-note em { font-style: italic; color: var(--sage-dk); }
+
+  /* ── RSVP — birch ── */
+  .rsvp { background: var(--birch); }
+  .rsvp .section-label { color: var(--fern); }
+  .rsvp .section-title { color: var(--ink); }
+  .rsvp-intro { font-size: 0.95rem; color: var(--mid); line-height: 1.7; margin-bottom: 0.8rem; }
+  .deadline-note {
+    display: inline-block; background: var(--azure);
+    border: 1px solid var(--line-blue);
+    border-radius: 3px; padding: 0.42rem 1rem;
+    font-size: 0.8rem; color: var(--dark-blue);
+    margin-bottom: 2rem; letter-spacing: 0.04em;
+  }
+  .deadline-note strong { font-weight: 700; }
+
+  /* Form cards */
+  .form-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.6rem 1.8rem; margin-bottom: 1rem;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--sage-dk); font-weight: 400;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.3);
+    border-radius: 2px; padding: 0.65rem 0.9rem;
+    font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(90,107,88,0.45); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--dark-blue); box-shadow: 0 0 0 3px rgba(64,77,119,0.1);
+  }
+  .form-group textarea { height: 88px; resize: vertical; }
+  .form-group select { appearance: none; cursor: pointer; }
+
+  /* Days picker */
+  .days-picker { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-top: 0.6rem; }
+  .day-check {
+    background: var(--birch-lt); border: 1px solid rgba(143,166,140,0.3);
+    border-radius: 3px; padding: 0.9rem 0.5rem;
+    text-align: center; cursor: pointer; transition: all 0.2s; user-select: none;
+  }
+  .day-check:hover { border-color: var(--sage); background: var(--birch); }
+  .day-check.selected { background: var(--moss); border-color: var(--moss); }
+  .day-check.selected:hover { background: var(--fern-dk); border-color: var(--fern-dk); }
+  .day-label-name { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.1rem; }
+  .day-label-date { display: block; font-size: 0.6rem; letter-spacing: 0.14em; color: var(--grey-blue); text-transform: uppercase; }
+  .day-label-desc { display: block; font-size: 0.6rem; color: var(--mid); opacity: 0.7; margin-top: 0.25rem; line-height: 1.3; }
+  .day-check.selected .day-label-name { color: var(--birch-lt); }
+  .day-check.selected .day-label-date { color: var(--sage-lt); }
+  .day-check.selected .day-label-desc { color: rgba(232,223,208,0.5); }
+
+  /* Checkboxes */
+  .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(165px,1fr)); gap: 0.45rem; }
+  .check-option {
+    display: flex; align-items: center; gap: 0.5rem; font-size: 0.86rem; cursor: pointer;
+    color: var(--mid); background: var(--birch); border: 1px solid rgba(143,166,140,0.25);
+    border-radius: 3px; padding: 0.48rem 0.7rem; transition: all 0.15s;
+  }
+  .check-option:hover { border-color: var(--sage); color: var(--ink); }
+  .check-option input { accent-color: var(--fern); }
+  .radio-row { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .radio-option { display: flex; align-items: center; gap: 0.4rem; font-size: 0.88rem; cursor: pointer; color: var(--mid); }
+  .radio-option input { accent-color: var(--fern); }
+  .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  .type-option {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.28);
+    border-radius: 3px; padding: 0.52rem; text-align: center;
+    cursor: pointer; transition: all 0.15s; font-size: 0.87rem; color: var(--mid);
+  }
+  .type-option:hover { border-color: var(--sage); color: var(--ink); }
+  .type-option.selected { background: var(--moss); border-color: var(--moss); color: var(--birch-lt); }
+
+  /* Guest cards */
+  .guests-section { margin-top: 0; }
+  .guests-header { margin-bottom: 1rem; }
+  .guests-subtext { font-size: 0.84rem; color: var(--mid); line-height: 1.55; max-width: 600px; }
+  .guest-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 3px; padding: 1.3rem 1.3rem 1rem; margin-bottom: 0.8rem;
+  }
+  .guest-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 0.65rem;
+  }
+  .guest-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--ink); font-weight: 400; }
+  .btn-remove-guest {
+    background: transparent; border: 1px solid var(--line); color: var(--mid);
+    font-family: 'Jost', sans-serif; font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.22em 0.65em; border-radius: 2px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-remove-guest:hover { border-color: #b55252; color: #b55252; }
+  .guest-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  .guest-fields .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .guest-fields .form-group.full-width { grid-column: 1 / -1; }
+
+  /* Buttons */
+  .btn-submit {
+    display: inline-block; margin-top: 1.5rem;
+    background: var(--fern); color: #fff; border: none;
+    padding: 0.9rem 2.8rem; font-family: 'Jost', sans-serif; font-size: 0.75rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: background 0.2s;
+  }
+  .btn-submit:hover:not(:disabled) { background: var(--fern-dk); }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-add-guest {
+    display: block; width: 100%; margin-top: 0.4rem; background: transparent;
+    border: 1px dashed rgba(143,166,140,0.45); color: var(--sage-dk);
+    font-family: 'Jost', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 0.72rem; border-radius: 2px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-add-guest:hover { border-color: var(--sage); color: var(--fern); background: rgba(143,166,140,0.08); }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--moss-dk); color: rgba(232,223,208,0.3);
+    text-align: center; padding: 3rem 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.14em;
+  }
+  footer span { color: var(--sage); }
+
+  /* ── Responsive ── */
+  @media (max-width:680px) {
+    .villa-grid { grid-template-columns:1fr; }
+    .villa-grid .wide { height:240px; }
+    .villa-details { grid-template-columns:1fr; }
+    .form-grid { grid-template-columns:1fr; }
+    .days-picker { grid-template-columns:1fr 1fr; }
+    .event { grid-template-columns:70px 1fr; }
+    .day-badge { display:none; }
+  }
+  @media (max-width:480px) {
+    .guest-fields { grid-template-columns:1fr; }
+    .dc-grid { grid-template-columns:1fr; }
+  }
+
+  /* ── Presents section ── */
+  .presents { background: var(--birch-lt); }
+  .presents .section-title { color: var(--ink); }
+  .presents-intro { font-size: 1rem; color: var(--mid); line-height: 1.75; margin-bottom: 2rem; max-width: 600px; }
+  .bank-card {
+    background: var(--birch);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--fern);
+    border-radius: 3px; padding: 1.3rem 1.5rem;
+    max-width: 480px; font-size: 0.9rem; color: var(--mid); line-height: 1.8;
+  }
+  .bank-card strong { color: var(--ink); font-weight: 500; }
+  .bank-iban {
+    font-family: 'Jost', monospace; font-size: 0.92rem;
+    color: var(--ink); letter-spacing: 0.06em;
+    display: inline; margin-top: 0.2rem;
+  }
+
+  /* ── Food & alcohol questions ── */
+  .food-options { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .food-chip {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.3);
+    border-radius: 20px; padding: 0.35rem 0.85rem;
+    font-size: 0.82rem; color: var(--mid); cursor: pointer; transition: all 0.15s;
+    user-select: none;
+  }
+  .food-chip:hover { border-color: var(--sage); color: var(--ink); }
+  .food-chip.selected { background: var(--fern); border-color: var(--fern); color: #fff; }
+  .alc-toggle { display: flex; gap: 0.5rem; }
+  .alc-option {
+    flex: 1; background: var(--birch); border: 1px solid rgba(143,166,140,0.3);
+    border-radius: 3px; padding: 0.55rem; text-align: center;
+    cursor: pointer; transition: all 0.15s; font-size: 0.88rem; color: var(--mid);
+  }
+  .alc-option:hover { border-color: var(--sage); color: var(--ink); }
+  .alc-option.selected { background: var(--fern); border-color: var(--fern); color: #fff; }
+
+  /* Event type badges (same pill style as day-badge) */
+  .ev-badge {
+    display: inline-block;
+    font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+    border-radius: 50px; padding: 0.25em 0.75em;
+    margin-left: 0.55rem; vertical-align: middle; position: relative; top: -2px;
+    font-family: 'Jost', sans-serif; font-weight: 400;
+  }
+  .ev-badge.together {
+    background: rgba(143,166,140,0.18);
+    border: 1px solid rgba(143,166,140,0.4);
+    color: var(--sage-lt);
+  }
+  .ev-badge.organized {
+    background: rgba(77,107,82,0.18);
+    border: 1px solid rgba(77,107,82,0.4);
+    color: #c2d9c0;
+  }
+  .ev-badge.spontaneous {
+    background: rgba(133,155,186,0.15);
+    border: 1px solid rgba(133,155,186,0.35);
+    color: var(--pale-blue);
+  }
+
+  /* Schedule legend */
+  .schedule-legend {
+    margin-top: 2rem;
+    border-top: 1px solid rgba(143,166,140,0.15);
+    padding-top: 1.8rem;
+  }
+  .schedule-legend-title {
+    font-size: 0.62rem; letter-spacing: 0.38em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 1.2rem;
+  }
+  .legend-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .legend-item { display: flex; flex-direction: column; gap: 0.35rem; }
+  .legend-badge-row { display: flex; align-items: center; gap: 0.5rem; }
+  .legend-text { font-size: 0.82rem; color: rgba(232,223,208,0.45); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<div class="rsvp-banner">
+  Rispondi entro il <strong>12 aprile 2026</strong><span class="sep"> &nbsp;·&nbsp; </span><br class="mobile-br">Scorri per confermare
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">Siete calorosamente invitati</div>
+  <h1 class="hero-names">Sonja<span class="hero-amp">&amp;</span><em>Giacomo</em></h1>
+  <p class="hero-date">30 maggio 2026 · Giorno del Matrimonio</p>
+  <p class="hero-place">Relais Corte Benedetto · Capannori, Toscana</p>
+  <div class="hero-line"></div>
+</section>
+
+<section class="welcome">
+  <div class="container">
+    <p class="section-label">Due parole da noi</p>
+    <h2 class="section-title" style="font-size:clamp(1.6rem,3.5vw,2.2rem);">Intimo, caloroso,<br><em style="font-style:italic; color:var(--green);">e meravigliosamente rilassato.</em></h2>
+    <p>Ci sposiamo, e non desideriamo nient'altro che avervi con noi. Sar&agrave; una celebrazione piccola e intima, condivisa con le persone che amiamo di pi&ugrave;.</p>
+    <p>Una giornata in piscina, mangiando un po' troppo e ridendo ancora di pi&ugrave;. Poi, al tramonto, ci vestiremo bene, balleremo e festeggeremo come si deve.</p>
+    <p class="welcome-motto">Semplice cos&igrave; &mdash; e speriamo davvero che possiate esserci.</p>
+  </div>
+</section>
+
+
+
+<section class="schedule">
+  <div class="container">
+    <p class="section-label">La Giornata</p>
+    <h2 class="section-title">Programma</h2>
+    <p style="color:rgba(205,223,233,0.5); font-size:0.85rem; margin-bottom:3rem;">Orari indicativi &mdash; siamo in Toscana, dopotutto.</p>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Sabato</span>
+        <span class="day-date">30 maggio</span>
+        <span class="day-badge">✦ Il Matrimonio</span>
+      </div>
+      <div class="events">
+
+        <div class="event">
+          <span class="event-time">12–16</span>
+          <div>
+            <div class="event-title">Ritrovo in piscina</div>
+            <div class="event-desc">Open bar, buffet di stuzzichini, sole e pochissima agenda. Il cuore della giornata.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">16–17</span>
+          <div>
+            <div class="event-title">Preparativi <span class="event-tag" style="background:#FFEFC3;border:1px solid #e8c97a;color:#7a6830;">Glam Up ✨</span></div>
+            <div class="event-desc">Avrete spazi dedicati per rinfrescarvi, cambiarvi e prepararvi per la serata &mdash; prendetevi il vostro tempo.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">17–18</span>
+          <div>
+            <div class="event-title">Aperitivo <span class="ev-badge organized">Organizzato</span></div>
+            <div class="event-desc">Ci ritroviamo, drink alla mano. L'ora dorata sulle colline toscane &mdash; la calma prima della cerimonia.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">18–19</span>
+          <div>
+            <div class="event-title">Cerimonia <span class="event-tag tag-ceremony">✦ Cerimonia</span></div>
+            <div class="event-desc">Il momento che aspettavamo. Seguito da champagne e festeggiamenti.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">19–20</span>
+          <div>
+            <div class="event-title">Grigliata &amp; Aperitivo</div>
+            <div class="event-desc">Qualcuno sar&agrave; alla griglia &mdash; volontari benvenuti. Il cameriere sar&agrave; a disposizione.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">20–22</span>
+          <div>
+            <div class="event-title">Cena di Nozze <span class="ev-badge organized">Organizzato</span></div>
+            <div class="event-desc">La cena di festeggiamento, con musica leggera in sottofondo. Lunga, senza fretta, piena di brindisi.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">22 →</span>
+          <div>
+            <div class="event-title">La Festa <span class="event-tag tag-party">Ballo</span></div>
+            <div class="event-desc">Abbiamo preparato le playlist. Il resto sta a voi.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </div>
+</section>
+
+<section class="villa">
+  <div class="container-wide">
+    <p class="section-label">Location</p>
+    <h2 class="section-title">Relais Corte Benedetto</h2>
+
+
+
+    <div class="villa-grid">
+      <img class="wide" src="../img/img_1.jpg" alt="Relais Corte Benedetto exterior" />
+      
+      <img src="../img/img_2.jpg" alt="Villa dining room" />
+      <img src="../img/img_3.jpg" alt="Villa living area" />
+      <img src="../img/img_4.jpg" alt="Villa bedroom" />
+      <img src="../img/img_5.jpg" alt="Villa pool and gardens" />
+    </div>
+
+
+  </div>
+</section>
+
+
+
+<section class="dresscode">
+  <div class="container">
+    <p class="section-label">Come Vestirsi</p>
+    <h2 class="section-title">Dress Code</h2>
+    <p class="dresscode-intro">
+      Il sabato &egrave; ricco di momenti speciali &mdash; e ognuno richiede qualcosa di un po' diverso. Ecco una breve guida per sapere cosa indossare e quando.
+    </p>
+    <p class="dresscode-motto">Vestitevi per il momento, e sentitevi completamente a vostro agio con ci&ograve; che vi rende felici.</p>
+
+
+    <div class="dc-grid">
+
+      <div class="dc-card" style="border-top-color:#e8c97a;">
+        <div class="dc-date">Sabato 30 maggio</div>
+        <div class="dc-event">Pool Party</div>
+        <span class="dc-code swim">Costume &amp; Casual</span>
+        <div class="dc-note">Portate il vostro costume preferito e divertitevi! <em>Crema solare e buon umore sono gli unici essenziali.</em></div>
+      </div>
+
+      <div class="dc-card dark-top">
+        <div class="dc-date">Sabato 30 maggio</div>
+        <div class="dc-event">Cerimonia, Cena &amp; Festa</div>
+        <span class="dc-code elegant">Elegante Cocktail</span>
+        <div class="dc-note">Questo &egrave; il grande momento &mdash; vestitevi bene e godetevelo. Pensate a un abito da cocktail o un completo elegante. La festa continua dopo, quindi ballate liberamente.</div>
+      </div>
+
+                            </div>
+  </div>
+</section>
+
+<section class="presents">
+  <div class="container">
+    <p class="section-label">Regali</p>
+    <h2 class="section-title">Una nota sui regali</h2>
+    <p class="presents-intro">
+      La vostra presenza &egrave; sinceramente il regalo pi&ugrave; grande che potremmo desiderare. Ma se volete contribuire a qualcosa di concreto, ci farebbe molto piacere destinare ogni contributo alla nostra prossima avventura &mdash; un nuovo capitolo che stiamo costruendo insieme.
+    </p>
+    <div class="bank-card">
+      <strong>Coordinate bancarie</strong><br>
+      Intestatario: <strong>Giacomo Baldi</strong><br>
+      IBAN: <span class="bank-iban">IT92G0301503200000005639499</span>
+    </div>
+  </div>
+</section>
+
+<section class="rsvp">
+  <div class="container">
+    <p class="section-label">Conferma</p>
+    <h2 class="section-title">Un paio di domande veloci</h2>
+    <p class="rsvp-intro">Solo qualche dettaglio per assicurarci che tutto sia perfetto per voi. Ci vuole meno di un minuto!</p>
+    <div class="deadline-note">📅 &nbsp;Rispondete entro il <strong>12 aprile 2026</strong></div>
+
+    <!-- Email -->
+    <div class="form-card">
+      <div class="form-group" style="max-width:400px;">
+        <label>Indirizzo email</label>
+        <input id="mainEmail" type="email" placeholder="per poterti contattare" oninput="checkCanSubmit()" />
+      </div>
+    </div><!-- /form-card -->
+
+    <!-- Guests attending -->
+    <div class="form-card">
+      <div class="guests-section">
+        <div class="guests-header">
+          <p class="section-label" style="margin-bottom:0.3rem;">Chi viene?</p>
+          <p class="guests-subtext">Aggiungi te stesso e il tuo accompagnatore &#9825;</p>
+        </div>
+        <div id="guestList"></div>
+        <button type="button" class="btn-add-guest" onclick="addGuest()">+ Aggiungi un'altra persona</button>
+      </div>
+    </div><!-- /form-card -->
+
+    <!-- Anything else -->
+    <div class="form-card" style="margin-top:0;">
+      <div class="form-group" style="width:100%;">
+        <label>Altro da segnalarci?</label>
+        <textarea style="width:100%; min-height:90px;" placeholder="Richieste particolari, esigenze di accessibilit&agrave;, o semplicemente qualcosa di carino da dirci…"></textarea>
+      </div>
+    </div><!-- /form-card -->
+
+    <button class="btn-submit" onclick="submitRSVP()" disabled>Invia la tua risposta</button>
+    <div id="submitStatus" style="margin-top:1rem; text-align:center; display:none;"></div>
+
+    <script>
+      // ── CONFIG ──
+      var TEAM = 'team-family';
+      var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzosPOXexn2X5hb1pcSyP84I-jfsprBnpl5By-0ewHQ69VJ24B1yEYKhP3epmpimloz/exec';
+
+      function checkCanSubmit() {
+        var email = document.getElementById('mainEmail').value.trim();
+        var btn = document.querySelector('.btn-submit');
+        btn.disabled = !email;
+      }
+
+      let guestCount = 0;
+      function addGuest() {
+        guestCount++;
+        var id = guestCount;
+        var label = id === 1 ? 'Tu' : 'Ospite ' + id;
+        var removeBtn = id === 1 ? '' : '<button type="button" class="btn-remove-guest" onclick="removeGuest(' + id + ')">Rimuovi</button>';
+        var div = document.createElement('div');
+        div.className = 'guest-card';
+        div.id = 'guest-' + id;
+        div.innerHTML = '<div class="guest-card-header"><span class="guest-card-title">' + label + '</span>' + removeBtn + '</div>'
+          + '<div class="guest-fields">'
+          + '<div class="form-group"><label>Nome</label><input type="text" placeholder="Nome" /></div>'
+          + '<div class="form-group"><label>Cognome</label><input type="text" placeholder="Cognome" /></div>'
+          + '<div class="form-group"><label>Adulto o bambino?</label><div class="type-toggle"><div class="type-option selected" onclick="selectType(this,&quot;adult&quot;)"><span>Adulto</span></div><div class="type-option" onclick="selectType(this,&quot;child&quot;)"><span>Bambino</span></div></div></div>'
+          + '<div class="form-group age-field" style="display:none;"><label>Et&#224; del bambino</label><input type="number" placeholder="Et&#224; in anni" min="0" max="17" /></div>'
+          + '<div class="form-group full-width"><label>Esigenze alimentari</label><div class="checkbox-grid"><label class="check-option"><input type="checkbox"> Vegetariano</label><label class="check-option"><input type="checkbox"> Intolleranza al glutine</label><label class="check-option"><input type="checkbox"> Allergia alle noci</label><label class="check-option"><input type="checkbox"> Intolleranza al lattosio</label><label class="check-option"><input type="checkbox"> Altro</label><label class="check-option"><input type="checkbox"> Nessuna restrizione</label></div></div>'
+          + '<div class="form-group"><label>Dettagli allergie</label><input type="text" placeholder="Lascia vuoto se nessuna" /></div>'
+          + '<div class="form-group"><label>Beve alcolici?</label><div class="radio-row"><label class="radio-option"><input type="radio" name="alc_' + id + '"> S&#236;</label><label class="radio-option"><input type="radio" name="alc_' + id + '"> No</label></div></div>'
+          + '</div>';
+        document.getElementById('guestList').appendChild(div);
+      }
+
+      function removeGuest(id) {
+        var el = document.getElementById('guest-' + id);
+        if (el) el.remove();
+      }
+
+      function selectType(el, type) {
+        var fields = el.closest('.guest-fields');
+        fields.querySelectorAll('.type-option').forEach(function(o) { o.classList.remove('selected'); });
+        el.classList.add('selected');
+        var ageField = fields.querySelector('.age-field');
+        if (ageField) ageField.style.display = type === 'child' ? 'flex' : 'none';
+      }
+
+      addGuest();
+
+      function toggleChip(el) {
+        el.classList.toggle('selected');
+      }
+
+      function toggleAlc(el) {
+        document.querySelectorAll('.alc-option').forEach(function(o) { o.classList.remove('selected'); });
+        el.classList.add('selected');
+      }
+
+      // ── Collect and submit — one row per guest, Saturday only ──
+      function collectFormData() {
+        var email = document.getElementById('mainEmail').value.trim();
+
+        var guests = [];
+        document.querySelectorAll('.guest-card').forEach(function(card) {
+          var textInputs = card.querySelectorAll('.guest-fields input[type="text"]');
+          var firstName = textInputs[0] ? textInputs[0].value.trim() : '';
+          var lastName = textInputs[1] ? textInputs[1].value.trim() : '';
+          var typeEl = card.querySelector('.type-option.selected span');
+          var type = typeEl ? typeEl.textContent.trim() : 'Adult';
+          var ageInput = card.querySelector('.age-field input');
+          var age = (type === 'Child' && ageInput) ? ageInput.value.trim() : '';
+          var diet = [];
+          card.querySelectorAll('.checkbox-grid input[type="checkbox"]:checked').forEach(function(cb) {
+            var lbl = cb.closest('.check-option');
+            if (lbl) diet.push(lbl.textContent.trim());
+          });
+          var allergyInput = textInputs[2];
+          var allergy = allergyInput ? allergyInput.value.trim() : '';
+          var alcRadio = card.querySelector('input[type="radio"]:checked');
+          var alcohol = '';
+          if (alcRadio) {
+            var alcLabel = alcRadio.closest('.radio-option');
+            if (alcLabel) alcohol = alcLabel.textContent.trim();
+          }
+          guests.push({ firstName: firstName, lastName: lastName, type: type, age: age, diet: diet.join(', '), allergy: allergy, alcohol: alcohol });
+        });
+
+        var textarea = document.querySelector('.rsvp textarea');
+        var notes = textarea ? textarea.value.trim() : '';
+
+        return {
+          timestamp: new Date().toISOString(),
+          team: TEAM,
+          email: email,
+          friday: false,
+          saturday: true,
+          sunday: false,
+          monday: false,
+          guests: guests,
+          notes: notes
+        };
+      }
+
+      function submitRSVP() {
+        var statusEl = document.getElementById('submitStatus');
+        var btn = document.querySelector('.btn-submit');
+        var data = collectFormData();
+
+        if (!data.email) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Inserisci il tuo indirizzo email.';
+          return;
+        }
+        if (!data.guests[0] || !data.guests[0].firstName) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Inserisci almeno il tuo nome.';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Invio in corso\u2026';
+        btn.style.opacity = '0.6';
+        statusEl.style.display = 'block';
+        statusEl.style.color = 'var(--mid)';
+        statusEl.textContent = 'Invio della risposta\u2026';
+
+        fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(function() {
+          statusEl.style.color = 'var(--fern)';
+          statusEl.innerHTML = '<strong>Grazie!</strong> La tua risposta \u00e8 stata ricevuta. Non vediamo l\u2019ora di festeggiare con voi!';
+          btn.textContent = 'Risposta inviata \u2713';
+          btn.style.background = 'var(--sage)';
+          btn.style.opacity = '1';
+        })
+        .catch(function() {
+          statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Qualcosa \u00e8 andato storto \u2014 riprova o scrivici direttamente.';
+          btn.disabled = false;
+          btn.textContent = 'Invia la tua risposta';
+          btn.style.opacity = '1';
+        });
+      }
+    </script>
+  </div>
+</section>
+
+<footer>
+  Con tutto il nostro amore, <span>Sonja &amp; Giacomo</span> &nbsp;·&nbsp; Corte Benedetto, Toscana &nbsp;·&nbsp; Maggio 2026
+</footer>
+
+</body>
+</html>
