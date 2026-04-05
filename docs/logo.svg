@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <rect width="500" height="500" fill="#FAFAF8"/>
+
+  <!-- Open circle with gap at top — two arcs -->
+  <path d="M 235 112 A 100 100 0 1 0 265 112" fill="none" stroke="#2C2C2C" stroke-width="1.2"/>
+
+  <!-- Initials -->
+  <text x="210" y="225" font-family="Georgia, 'Times New Roman', serif" font-weight="normal"
+        font-size="52" fill="#2C2C2C" text-anchor="middle">B</text>
+  <text x="290" y="225" font-family="Georgia, 'Times New Roman', serif" font-weight="normal"
+        font-size="52" fill="#2C2C2C" text-anchor="middle">R</text>
+
+  <!-- Thin vertical line between initials -->
+  <line x1="250" y1="178" x2="250" y2="232" stroke="#2C2C2C" stroke-width="0.8"/>
+
+  <!-- Family name -->
+  <text x="250" y="365" font-family="Georgia, 'Times New Roman', serif" font-weight="normal"
+        font-size="22" fill="#2C2C2C" text-anchor="middle" letter-spacing="6">BALDI-RADOVIC</text>
+
+  <!-- Subtle year -->
+  <text x="250" y="395" font-family="Georgia, 'Times New Roman', serif" font-weight="normal"
+        font-size="11" fill="#2C2C2C" text-anchor="middle" letter-spacing="3" opacity="0.35">2026</text>
+</svg>
