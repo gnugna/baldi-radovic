@@ -392,14 +392,13 @@
 
   /* Buttons */
   .btn-submit {
-    display: inline-block; margin-top: 1.5rem;
+    display: block; margin: 1.5rem auto 0; text-align: center;
     background: var(--fern); color: #fff; border: none;
     padding: 0.9rem 2.8rem; font-family: 'Jost', sans-serif; font-size: 0.75rem;
     letter-spacing: 0.3em; text-transform: uppercase;
     cursor: pointer; border-radius: 2px; transition: background 0.2s;
   }
-  .btn-submit:hover:not(:disabled) { background: var(--fern-dk); }
-  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-submit:hover { background: var(--fern-dk); }
   .btn-add-guest {
     display: block; width: 100%; margin-top: 0.4rem; background: transparent;
     border: 1px dashed rgba(143,166,140,0.45); color: var(--sage-dk);
@@ -691,7 +690,7 @@
     <div class="form-card">
       <div class="form-group" style="max-width:400px;">
         <label>Email address</label>
-        <input id="mainEmail" type="email" placeholder="so we can reach you" oninput="checkCanSubmit()" />
+        <input id="mainEmail" type="email" placeholder="so we can reach you" />
       </div>
 
       <div class="form-group full" style="margin-top:1.2rem;">
@@ -730,7 +729,7 @@
     </div><!-- /form-card -->
     </div><!-- /attendingCards -->
 
-    <button class="btn-submit" onclick="submitRSVP()" disabled>Send my response</button>
+    <button class="btn-submit" onclick="submitRSVP()">Send my response</button>
     <div id="submitStatus" style="margin-top:1rem; text-align:center; display:none;"></div>
 
     <script>
@@ -747,14 +746,6 @@
         if (attending) { opts[0].classList.add('selected'); } else { opts[1].classList.add('selected'); }
         document.getElementById('attendingCards').style.display = attending ? '' : 'none';
         document.getElementById('declineMessage').style.display = attending ? 'none' : '';
-        checkCanSubmit();
-      }
-
-      function checkCanSubmit() {
-        var email = document.getElementById('mainEmail').value.trim();
-        var btn = document.querySelector('.btn-submit');
-        if (isAttending === null) { btn.disabled = true; }
-        else { btn.disabled = !email; }
       }
 
       let guestCount = 0;
@@ -854,18 +845,36 @@
         };
       }
 
+      function validateForm(data) {
+        var errors = [];
+        if (isAttending === null) errors.push('Please tell us if you will be joining us.');
+        if (!data.email) errors.push('Please provide your email address.');
+        if (!isAttending) return errors;
+        if (!data.guests[0] || !data.guests[0].firstName) errors.push('Please fill in at least your own name.');
+        document.querySelectorAll('.guest-card').forEach(function(card, i) {
+          var label = i === 0 ? 'You' : 'Guest ' + (i + 1);
+          var diet = card.querySelectorAll('.checkbox-grid input[type="checkbox"]:checked');
+          if (diet.length === 0) errors.push(label + ': please select dietary requirements.');
+          var alcField = card.querySelector('.alc-field');
+          if (alcField && alcField.style.display !== 'none') {
+            var alcChecked = card.querySelector('input[type="radio"]:checked');
+            if (!alcChecked) errors.push(label + ': please select alcohol preference.');
+          }
+        });
+        return errors;
+      }
+
       function submitRSVP() {
         var statusEl = document.getElementById('submitStatus');
         var btn = document.querySelector('.btn-submit');
         var data = collectFormData();
+        var errors = validateForm(data);
 
-        if (!data.email) {
-          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please provide your email address.'; return;
-        }
-        if (data.attending && (!data.guests[0] || !data.guests[0].firstName)) {
-          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please fill in at least your own name.'; return;
+        if (errors.length > 0) {
+          statusEl.style.display = 'block';
+          statusEl.style.color = '#b55252';
+          statusEl.innerHTML = errors.join('<br>');
+          return;
         }
 
         btn.disabled = true;
