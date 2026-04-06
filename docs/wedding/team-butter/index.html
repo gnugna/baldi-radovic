@@ -797,7 +797,7 @@
         if (!isAttending) {
           return {
             timestamp: new Date().toISOString(), team: TEAM, email: email, attending: false,
-            friday: false, saturday: false, sunday: false, monday: false,
+            friday: false, sat_pool: false, sat_dinner: false, sun_lunch: false, sun_dinner: false,
             guests: [{ firstName: '', lastName: '', type: 'Declined', age: '', diet: '', allergy: '', alcohol: '' }],
             notes: ''
           };
@@ -833,7 +833,7 @@
 
         return {
           timestamp: new Date().toISOString(), team: TEAM, email: email, attending: true,
-          friday: false, saturday: true, sunday: false, monday: false,
+          friday: false, sat_pool: true, sat_dinner: true, sun_lunch: false, sun_dinner: false,
           guests: guests, notes: notes
         };
       }

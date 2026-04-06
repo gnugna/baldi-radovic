@@ -330,7 +330,7 @@
   .form-group select { appearance: none; cursor: pointer; }
 
   /* Days picker */
-  .days-picker { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.6rem; margin-top: 0.6rem; }
+  .days-picker { display: grid; grid-template-columns: repeat(5,1fr); gap: 0.6rem; margin-top: 0.6rem; }
   .day-check {
     background: var(--birch-lt); border: 1px solid rgba(143,166,140,0.3);
     border-radius: 3px; padding: 0.9rem 0.5rem;
@@ -889,25 +889,30 @@
       <div class="form-group full" style="margin-top:1.2rem;">
         <label>Which days will you be joining us?</label>
         <div class="days-picker">
-          <div class="day-check" onclick="toggleDay(this)">
+          <div class="day-check" data-slot="friday" onclick="toggleDay(this)">
             <span class="day-label-name">Friday</span>
             <span class="day-label-date">29 May</span>
             <span class="day-label-desc">Arrival Day 🌿</span>
           </div>
-          <div class="day-check" onclick="toggleDay(this)">
+          <div class="day-check" data-slot="sat_pool" onclick="toggleDay(this)">
             <span class="day-label-name">Saturday</span>
             <span class="day-label-date">30 May</span>
-            <span class="day-label-desc">The Big Day 💍</span>
+            <span class="day-label-desc">Pool Party 🏊</span>
           </div>
-          <div class="day-check" onclick="toggleDay(this)">
+          <div class="day-check" data-slot="sat_dinner" onclick="toggleDay(this)">
+            <span class="day-label-name">Saturday</span>
+            <span class="day-label-date">30 May</span>
+            <span class="day-label-desc">Dinner 💍</span>
+          </div>
+          <div class="day-check" data-slot="sun_lunch" onclick="toggleDay(this)">
             <span class="day-label-name">Sunday</span>
             <span class="day-label-date">31 May</span>
-            <span class="day-label-desc">Family Lunch Day 🥂</span>
+            <span class="day-label-desc">Lunch 🥂</span>
           </div>
-          <div class="day-check" onclick="toggleDay(this)">
-            <span class="day-label-name">Monday</span>
-            <span class="day-label-date">1 June</span>
-            <span class="day-label-desc">Lazy Tuscan Day ☀️</span>
+          <div class="day-check" data-slot="sun_dinner" onclick="toggleDay(this)">
+            <span class="day-label-name">Sunday</span>
+            <span class="day-label-date">31 May</span>
+            <span class="day-label-desc">Dinner 🍕</span>
           </div>
         </div>
       </div>
@@ -1025,7 +1030,7 @@
         if (!isAttending) {
           return {
             timestamp: new Date().toISOString(), team: TEAM, email: email, attending: false,
-            friday: false, saturday: false, sunday: false, monday: false,
+            friday: false, sat_pool: false, sat_dinner: false, sun_lunch: false, sun_dinner: false,
             guests: [{ firstName: '', lastName: '', type: 'Declined', age: '', diet: '', allergy: '', alcohol: '' }],
             notes: ''
           };
@@ -1033,8 +1038,8 @@
 
         var days = {};
         document.querySelectorAll('.day-check').forEach(function(el) {
-          var name = el.querySelector('.day-label-name').textContent.trim();
-          days[name] = el.classList.contains('selected');
+          var slot = el.getAttribute('data-slot');
+          days[slot] = el.classList.contains('selected');
         });
 
         var guests = [];
@@ -1067,8 +1072,9 @@
 
         return {
           timestamp: new Date().toISOString(), team: TEAM, email: email, attending: true,
-          friday: days['Friday'] || false, saturday: days['Saturday'] || false,
-          sunday: days['Sunday'] || false, monday: days['Monday'] || false,
+          friday: days['friday'] || false, sat_pool: days['sat_pool'] || false,
+          sat_dinner: days['sat_dinner'] || false, sun_lunch: days['sun_lunch'] || false,
+          sun_dinner: days['sun_dinner'] || false,
           guests: guests, notes: notes
         };
       }
@@ -1078,7 +1084,7 @@
         if (isAttending === null) errors.push('Please tell us if you will be joining us.');
         if (!data.email) errors.push('Please provide your email address.');
         if (!isAttending) return errors;
-        if (!data.friday && !data.saturday && !data.sunday && !data.monday) errors.push('Please select which days you will be joining us.');
+        if (!data.friday && !data.sat_pool && !data.sat_dinner && !data.sun_lunch && !data.sun_dinner) errors.push('Please select which events you will be joining us for.');
         if (!data.guests[0] || !data.guests[0].firstName) errors.push('Please fill in at least your own name.');
         document.querySelectorAll('.guest-card').forEach(function(card, i) {
           var label = i === 0 ? 'You' : 'Guest ' + (i + 1);

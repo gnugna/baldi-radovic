@@ -20,9 +20,10 @@ var HEADERS = [
   'Email',
   'Attending',
   'Friday',
-  'Saturday',
-  'Sunday',
-  'Monday',
+  'Sat Pool',
+  'Sat Dinner',
+  'Sun Lunch',
+  'Sun Dinner',
   'First Name',
   'Last Name',
   'Adult/Child',
@@ -55,9 +56,10 @@ function doPost(e) {
   var email = data.email || '';
   var attending = data.attending !== false ? 'Yes' : 'No';
   var friday = data.friday ? 'Yes' : 'No';
-  var saturday = data.saturday ? 'Yes' : 'No';
-  var sunday = data.sunday ? 'Yes' : 'No';
-  var monday = data.monday ? 'Yes' : 'No';
+  var sat_pool = data.sat_pool ? 'Yes' : 'No';
+  var sat_dinner = data.sat_dinner ? 'Yes' : 'No';
+  var sun_lunch = data.sun_lunch ? 'Yes' : 'No';
+  var sun_dinner = data.sun_dinner ? 'Yes' : 'No';
   var notes = data.notes || '';
   var guests = data.guests || [];
 
@@ -70,9 +72,10 @@ function doPost(e) {
       email,
       attending,
       friday,
-      saturday,
-      sunday,
-      monday,
+      sat_pool,
+      sat_dinner,
+      sun_lunch,
+      sun_dinner,
       g.firstName || '',
       g.lastName || '',
       g.type || 'Adult',
