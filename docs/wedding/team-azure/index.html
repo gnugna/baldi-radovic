@@ -850,13 +850,22 @@
     <p class="rsvp-intro">To help us organise everything beautifully — from meals and beds to little personal touches — we need a few details from each of you. Your answers make all the difference!</p>
     <div class="deadline-note">📅 &nbsp;Please reply by <strong>12 April 2026</strong></div>
 
-    <!-- Email + Days -->
+    <!-- Email + Attending toggle + Days -->
     <div class="form-card">
       <div class="form-group" style="max-width:400px;">
         <label>Email address</label>
         <input id="mainEmail" type="email" placeholder="so we can reach you" oninput="checkCanSubmit()" />
       </div>
 
+      <div class="form-group full" style="margin-top:1.2rem;">
+        <label>Will you be joining us?</label>
+        <div class="alc-toggle" id="attendToggle">
+          <div class="alc-option" onclick="setAttending(true)">I'll be there!</div>
+          <div class="alc-option" onclick="setAttending(false)">Sorry, I can't make it</div>
+        </div>
+      </div>
+
+      <div id="attendingFields">
       <div class="form-group full" style="margin-top:1.2rem;">
         <label>Which days will you be joining us?</label>
         <div class="days-picker">
@@ -882,8 +891,15 @@
           </div>
         </div>
       </div>
+      </div><!-- /attendingFields -->
     </div><!-- /form-card -->
 
+    <!-- Decline message (hidden by default) -->
+    <div id="declineMessage" class="form-card" style="display:none; text-align:center;">
+      <p style="font-size:1rem; color:var(--mid); line-height:1.7;">We're sorry you can't make it — we'll miss you! If anything changes, you can always come back and update your response.</p>
+    </div>
+
+    <div id="attendingCards">
     <!-- Guests attending -->
     <div class="form-card">
     <div class="guests-section">
@@ -903,6 +919,7 @@
         <textarea style="width:100%; min-height:90px;" placeholder="Special requests, accessibility needs, or just something lovely to tell us…"></textarea>
       </div>
     </div><!-- /form-card -->
+    </div><!-- /attendingCards -->
 
     <button class="btn-submit" onclick="submitRSVP()" disabled>Send my response</button>
     <div id="submitStatus" style="margin-top:1rem; text-align:center; display:none;"></div>
@@ -912,13 +929,27 @@
       var TEAM = 'team-azure';
       var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzosPOXexn2X5hb1pcSyP84I-jfsprBnpl5By-0ewHQ69VJ24B1yEYKhP3epmpimloz/exec';
 
+      var isAttending = null;
+
+      function setAttending(attending) {
+        isAttending = attending;
+        var opts = document.querySelectorAll('#attendToggle .alc-option');
+        opts.forEach(function(o) { o.classList.remove('selected'); });
+        if (attending) { opts[0].classList.add('selected'); } else { opts[1].classList.add('selected'); }
+        document.getElementById('attendingFields').style.display = attending ? '' : 'none';
+        document.getElementById('attendingCards').style.display = attending ? '' : 'none';
+        document.getElementById('declineMessage').style.display = attending ? 'none' : '';
+        checkCanSubmit();
+      }
+
       function toggleDay(el) { el.classList.toggle('selected'); checkCanSubmit(); }
 
       function checkCanSubmit() {
         var email = document.getElementById('mainEmail').value.trim();
-        var hasDay = document.querySelector('.day-check.selected') !== null;
         var btn = document.querySelector('.btn-submit');
-        btn.disabled = !(email && hasDay);
+        if (isAttending === null) { btn.disabled = true; }
+        else if (!isAttending) { btn.disabled = !email; }
+        else { var hasDay = document.querySelector('.day-check.selected') !== null; btn.disabled = !(email && hasDay); }
       }
 
       let guestCount = 0;
@@ -976,7 +1007,16 @@
       // ── Collect and submit — one row per guest ──
       function collectFormData() {
         var email = document.getElementById('mainEmail').value.trim();
-        var dayNames = ['Friday', 'Saturday', 'Sunday', 'Monday'];
+
+        if (!isAttending) {
+          return {
+            timestamp: new Date().toISOString(), team: TEAM, email: email, attending: false,
+            friday: false, saturday: false, sunday: false, monday: false,
+            guests: [{ firstName: '', lastName: '', type: 'Declined', age: '', diet: '', allergy: '', alcohol: '' }],
+            notes: ''
+          };
+        }
+
         var days = {};
         document.querySelectorAll('.day-check').forEach(function(el) {
           var name = el.querySelector('.day-label-name').textContent.trim();
@@ -1012,15 +1052,10 @@
         var notes = textarea ? textarea.value.trim() : '';
 
         return {
-          timestamp: new Date().toISOString(),
-          team: TEAM,
-          email: email,
-          friday: days['Friday'] || false,
-          saturday: days['Saturday'] || false,
-          sunday: days['Sunday'] || false,
-          monday: days['Monday'] || false,
-          guests: guests,
-          notes: notes
+          timestamp: new Date().toISOString(), team: TEAM, email: email, attending: true,
+          friday: days['Friday'] || false, saturday: days['Saturday'] || false,
+          sunday: days['Sunday'] || false, monday: days['Monday'] || false,
+          guests: guests, notes: notes
         };
       }
 
@@ -1030,22 +1065,16 @@
         var data = collectFormData();
 
         if (!data.email) {
-          statusEl.style.display = 'block';
-          statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please provide your email address.';
-          return;
+          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Please provide your email address.'; return;
         }
-        if (!data.friday && !data.saturday && !data.sunday && !data.monday) {
-          statusEl.style.display = 'block';
-          statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please select which days you will be joining us.';
-          return;
+        if (data.attending && !data.friday && !data.saturday && !data.sunday && !data.monday) {
+          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Please select which days you will be joining us.'; return;
         }
-        if (!data.guests[0] || !data.guests[0].firstName) {
-          statusEl.style.display = 'block';
-          statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please fill in at least your own name.';
-          return;
+        if (data.attending && (!data.guests[0] || !data.guests[0].firstName)) {
+          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Please fill in at least your own name.'; return;
         }
 
         btn.disabled = true;
@@ -1063,7 +1092,9 @@
         })
         .then(function() {
           statusEl.style.color = 'var(--fern)';
-          statusEl.innerHTML = '<strong>Thank you!</strong> Your response has been received. We can\u2019t wait to celebrate with you!';
+          statusEl.innerHTML = data.attending
+            ? '<strong>Thank you!</strong> Your response has been received. We can\u2019t wait to celebrate with you!'
+            : '<strong>Thank you!</strong> We\u2019re sorry you can\u2019t make it \u2014 we\u2019ll miss you!';
           btn.textContent = 'Response sent \u2713';
           btn.style.background = 'var(--sage)';
           btn.style.opacity = '1';

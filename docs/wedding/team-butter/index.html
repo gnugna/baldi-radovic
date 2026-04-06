@@ -676,14 +676,28 @@
     <p class="rsvp-intro">Just a few quick details so we can make sure everything is perfect for you on the day. It takes less than a minute!</p>
     <div class="deadline-note">📅 &nbsp;Please reply by <strong>12 April 2026</strong></div>
 
-    <!-- Email -->
+    <!-- Email + Attending toggle -->
     <div class="form-card">
       <div class="form-group" style="max-width:400px;">
         <label>Email address</label>
         <input id="mainEmail" type="email" placeholder="so we can reach you" oninput="checkCanSubmit()" />
       </div>
+
+      <div class="form-group full" style="margin-top:1.2rem;">
+        <label>Will you be joining us?</label>
+        <div class="alc-toggle" id="attendToggle">
+          <div class="alc-option" onclick="setAttending(true)">I'll be there!</div>
+          <div class="alc-option" onclick="setAttending(false)">Sorry, I can't make it</div>
+        </div>
+      </div>
     </div><!-- /form-card -->
 
+    <!-- Decline message (hidden by default) -->
+    <div id="declineMessage" class="form-card" style="display:none; text-align:center;">
+      <p style="font-size:1rem; color:var(--mid); line-height:1.7;">We're sorry you can't make it — we'll miss you! If anything changes, you can always come back and update your response.</p>
+    </div>
+
+    <div id="attendingCards">
     <!-- Guests attending -->
     <div class="form-card">
       <div class="guests-section">
@@ -703,6 +717,7 @@
         <textarea style="width:100%; min-height:90px;" placeholder="Special requests, accessibility needs, or just something lovely to tell us…"></textarea>
       </div>
     </div><!-- /form-card -->
+    </div><!-- /attendingCards -->
 
     <button class="btn-submit" onclick="submitRSVP()" disabled>Send my response</button>
     <div id="submitStatus" style="margin-top:1rem; text-align:center; display:none;"></div>
@@ -712,10 +727,23 @@
       var TEAM = 'team-butter';
       var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzosPOXexn2X5hb1pcSyP84I-jfsprBnpl5By-0ewHQ69VJ24B1yEYKhP3epmpimloz/exec';
 
+      var isAttending = null;
+
+      function setAttending(attending) {
+        isAttending = attending;
+        var opts = document.querySelectorAll('#attendToggle .alc-option');
+        opts.forEach(function(o) { o.classList.remove('selected'); });
+        if (attending) { opts[0].classList.add('selected'); } else { opts[1].classList.add('selected'); }
+        document.getElementById('attendingCards').style.display = attending ? '' : 'none';
+        document.getElementById('declineMessage').style.display = attending ? 'none' : '';
+        checkCanSubmit();
+      }
+
       function checkCanSubmit() {
         var email = document.getElementById('mainEmail').value.trim();
         var btn = document.querySelector('.btn-submit');
-        btn.disabled = !email;
+        if (isAttending === null) { btn.disabled = true; }
+        else { btn.disabled = !email; }
       }
 
       let guestCount = 0;
@@ -768,6 +796,15 @@
       function collectFormData() {
         var email = document.getElementById('mainEmail').value.trim();
 
+        if (!isAttending) {
+          return {
+            timestamp: new Date().toISOString(), team: TEAM, email: email, attending: false,
+            friday: false, saturday: false, sunday: false, monday: false,
+            guests: [{ firstName: '', lastName: '', type: 'Declined', age: '', diet: '', allergy: '', alcohol: '' }],
+            notes: ''
+          };
+        }
+
         var guests = [];
         document.querySelectorAll('.guest-card').forEach(function(card) {
           var textInputs = card.querySelectorAll('.guest-fields input[type="text"]');
@@ -797,15 +834,9 @@
         var notes = textarea ? textarea.value.trim() : '';
 
         return {
-          timestamp: new Date().toISOString(),
-          team: TEAM,
-          email: email,
-          friday: false,
-          saturday: true,
-          sunday: false,
-          monday: false,
-          guests: guests,
-          notes: notes
+          timestamp: new Date().toISOString(), team: TEAM, email: email, attending: true,
+          friday: false, saturday: true, sunday: false, monday: false,
+          guests: guests, notes: notes
         };
       }
 
@@ -815,16 +846,12 @@
         var data = collectFormData();
 
         if (!data.email) {
-          statusEl.style.display = 'block';
-          statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please provide your email address.';
-          return;
+          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Please provide your email address.'; return;
         }
-        if (!data.guests[0] || !data.guests[0].firstName) {
-          statusEl.style.display = 'block';
-          statusEl.style.color = '#b55252';
-          statusEl.textContent = 'Please fill in at least your own name.';
-          return;
+        if (data.attending && (!data.guests[0] || !data.guests[0].firstName)) {
+          statusEl.style.display = 'block'; statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Please fill in at least your own name.'; return;
         }
 
         btn.disabled = true;
@@ -842,7 +869,9 @@
         })
         .then(function() {
           statusEl.style.color = 'var(--fern)';
-          statusEl.innerHTML = '<strong>Thank you!</strong> Your response has been received. We can\u2019t wait to celebrate with you!';
+          statusEl.innerHTML = data.attending
+            ? '<strong>Thank you!</strong> Your response has been received. We can\u2019t wait to celebrate with you!'
+            : '<strong>Thank you!</strong> We\u2019re sorry you can\u2019t make it \u2014 we\u2019ll miss you!';
           btn.textContent = 'Response sent \u2713';
           btn.style.background = 'var(--sage)';
           btn.style.opacity = '1';
