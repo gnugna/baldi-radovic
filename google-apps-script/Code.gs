@@ -24,6 +24,7 @@ var HEADERS = [
   'Sat Dinner',
   'Sun Lunch',
   'Sun Dinner',
+  'Monday',
   'First Name',
   'Last Name',
   'Adult/Child',
@@ -60,6 +61,7 @@ function doPost(e) {
   var sat_dinner = data.sat_dinner ? 'Yes' : 'No';
   var sun_lunch = data.sun_lunch ? 'Yes' : 'No';
   var sun_dinner = data.sun_dinner ? 'Yes' : 'No';
+  var monday = data.monday ? 'Yes' : 'No';
   var notes = data.notes || '';
   var guests = data.guests || [];
 
@@ -76,6 +78,7 @@ function doPost(e) {
       sat_dinner,
       sun_lunch,
       sun_dinner,
+      monday,
       g.firstName || '',
       g.lastName || '',
       g.type || 'Adult',

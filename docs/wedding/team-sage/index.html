@@ -340,7 +340,7 @@
   .form-group select { appearance: none; cursor: pointer; }
 
   /* Days picker */
-  .days-picker { display: grid; grid-template-columns: repeat(5,1fr); gap: 0.6rem; margin-top: 0.6rem; }
+  .days-picker { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.6rem; margin-top: 0.6rem; }
   .day-check {
     background: var(--birch-lt); border: 1px solid rgba(143,166,140,0.3);
     border-radius: 3px; padding: 0.9rem 0.5rem;
@@ -920,6 +920,11 @@
             <span class="day-label-date">31 May</span>
             <span class="day-label-desc">Dinner 🍕</span>
           </div>
+          <div class="day-check" data-slot="monday" onclick="toggleDay(this)">
+            <span class="day-label-name">Monday</span>
+            <span class="day-label-date">1 June</span>
+            <span class="day-label-desc">Free Day ☀️</span>
+          </div>
         </div>
       </div>
       </div><!-- /attendingFields -->
@@ -1039,7 +1044,7 @@
             team: TEAM,
             email: email,
             attending: false,
-            friday: false, sat_pool: false, sat_dinner: false, sun_lunch: false, sun_dinner: false,
+            friday: false, sat_pool: false, sat_dinner: false, sun_lunch: false, sun_dinner: false, monday: false,
             guests: [{ firstName: '', lastName: '', type: 'Declined', age: '', diet: '', allergy: '', alcohol: '' }],
             notes: ''
           };
@@ -1105,6 +1110,7 @@
           sat_dinner: days['sat_dinner'] || false,
           sun_lunch: days['sun_lunch'] || false,
           sun_dinner: days['sun_dinner'] || false,
+          monday: days['monday'] || false,
           guests: guests,
           notes: notes
         };
@@ -1115,7 +1121,7 @@
         if (isAttending === null) errors.push('Please tell us if you will be joining us.');
         if (!data.email) errors.push('Please provide your email address.');
         if (!isAttending) return errors;
-        if (!data.friday && !data.sat_pool && !data.sat_dinner && !data.sun_lunch && !data.sun_dinner) errors.push('Please select which events you will be joining us for.');
+        if (!data.friday && !data.sat_pool && !data.sat_dinner && !data.sun_lunch && !data.sun_dinner && !data.monday) errors.push('Please select which events you will be joining us for.');
         if (!data.guests[0] || !data.guests[0].firstName) errors.push('Please fill in at least your own name.');
         // Check each guest card
         document.querySelectorAll('.guest-card').forEach(function(card, i) {
