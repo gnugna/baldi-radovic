@@ -134,6 +134,12 @@
     margin: 3rem auto 0;
     opacity: 0; animation: fadeUp 1s 1.2s ease forwards;
   }
+  /* ── Scroll hint ── */
+  .scroll-hint { text-align: center; padding: 1.5rem 0 0; }
+  .scroll-hint svg { opacity: 0.25; animation: bobDown 2s ease-in-out infinite; }
+  .scroll-hint.on-dark svg { opacity: 0.18; }
+  @keyframes bobDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
   @keyframes fadeUp {
     from { opacity:0; transform:translateY(20px); }
     to   { opacity:1; transform:translateY(0); }
@@ -525,6 +531,7 @@
     <p>Buon cibo, buona compagnia, e tutto il tempo del mondo per stare insieme.</p>
     <p class="welcome-motto">Semplice cos&igrave; &mdash; e speriamo davvero che possiate esserci.</p>
   </div>
+    <div class="scroll-hint"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--sage-dk)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
 </section>
 
 
@@ -577,6 +584,7 @@
     
 
   </div>
+    <div class="scroll-hint on-dark"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--sage-lt)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
 </section>
 
 <section class="villa">
@@ -597,6 +605,7 @@
 
 
   </div>
+    <div class="scroll-hint"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--sage-dk)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
 </section>
 
 
@@ -629,6 +638,7 @@
 
                             </div>
   </div>
+    <div class="scroll-hint"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--sage-dk)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
 </section>
 
 <section class="presents">
