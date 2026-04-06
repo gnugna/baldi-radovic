@@ -763,6 +763,8 @@
         var id = guestCount;
         var label = id === 1 ? 'You' : 'Guest ' + id;
         var removeBtn = id === 1 ? '' : '<button type="button" class="btn-remove-guest" onclick="removeGuest(' + id + ')">Remove</button>';
+        var typeRow = id === 1 ? '' : '<div class="form-group"><label>Adult or child?</label><div class="type-toggle"><div class="type-option selected" onclick="selectType(this,&quot;adult&quot;)"><span>Adult</span></div><div class="type-option" onclick="selectType(this,&quot;child&quot;)"><span>Child</span></div></div></div>'
+          + '<div class="form-group age-field" style="display:none;"><label>Child&#39;s age</label><input type="number" placeholder="Age in years" min="0" max="17" /></div>';
         var div = document.createElement('div');
         div.className = 'guest-card';
         div.id = 'guest-' + id;
@@ -770,11 +772,10 @@
           + '<div class="guest-fields">'
           + '<div class="form-group"><label>First name</label><input type="text" placeholder="First name" /></div>'
           + '<div class="form-group"><label>Last name</label><input type="text" placeholder="Last name" /></div>'
-          + '<div class="form-group"><label>Adult or child?</label><div class="type-toggle"><div class="type-option selected" onclick="selectType(this,&quot;adult&quot;)"><span>Adult</span></div><div class="type-option" onclick="selectType(this,&quot;child&quot;)"><span>Child</span></div></div></div>'
-          + '<div class="form-group age-field" style="display:none;"><label>Child&#39;s age</label><input type="number" placeholder="Age in years" min="0" max="17" /></div>'
+          + typeRow
           + '<div class="form-group full-width"><label>Dietary requirements</label><div class="checkbox-grid"><label class="check-option"><input type="checkbox"> Vegetarian</label><label class="check-option"><input type="checkbox"> Gluten intolerance</label><label class="check-option"><input type="checkbox"> Nut allergy</label><label class="check-option"><input type="checkbox"> Lactose intolerance</label><label class="check-option"><input type="checkbox"> Other</label><label class="check-option"><input type="checkbox"> No restrictions</label></div></div>'
           + '<div class="form-group"><label>Allergy details</label><input type="text" placeholder="Leave blank if none" /></div>'
-          + '<div class="form-group"><label>Drinks alcohol?</label><div class="radio-row"><label class="radio-option"><input type="radio" name="alc_' + id + '"> Yes</label><label class="radio-option"><input type="radio" name="alc_' + id + '"> No</label></div></div>'
+          + '<div class="form-group alc-field"><label>Drinks alcohol?</label><div class="radio-row"><label class="radio-option"><input type="radio" name="alc_' + id + '"> Yes</label><label class="radio-option"><input type="radio" name="alc_' + id + '"> No</label></div></div>'
           + '</div>';
         document.getElementById('guestList').appendChild(div);
       }
@@ -790,6 +791,8 @@
         el.classList.add('selected');
         var ageField = fields.querySelector('.age-field');
         if (ageField) ageField.style.display = type === 'child' ? 'flex' : 'none';
+        var alcField = fields.querySelector('.alc-field');
+        if (alcField) alcField.style.display = type === 'child' ? 'none' : 'flex';
       }
 
       addGuest();
