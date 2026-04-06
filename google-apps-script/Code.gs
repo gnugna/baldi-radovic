@@ -18,6 +18,7 @@ var HEADERS = [
   'Timestamp',
   'Team',
   'Email',
+  'Attending',
   'Friday',
   'Saturday',
   'Sunday',
@@ -52,6 +53,7 @@ function doPost(e) {
   var timestamp = data.timestamp || new Date().toISOString();
   var team = data.team || '';
   var email = data.email || '';
+  var attending = data.attending !== false ? 'Yes' : 'No';
   var friday = data.friday ? 'Yes' : 'No';
   var saturday = data.saturday ? 'Yes' : 'No';
   var sunday = data.sunday ? 'Yes' : 'No';
@@ -66,6 +68,7 @@ function doPost(e) {
       timestamp,
       team,
       email,
+      attending,
       friday,
       saturday,
       sunday,
