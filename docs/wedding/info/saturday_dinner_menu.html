@@ -895,7 +895,7 @@
     fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }).then(function() {
       statusEl.classList.remove('error');
