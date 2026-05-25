@@ -630,15 +630,9 @@
     </div>
 
     <div class="form-card">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Your first name</label>
-          <input type="text" placeholder="First name" />
-        </div>
-        <div class="form-group">
-          <label>Your surname</label>
-          <input type="text" placeholder="Last name" />
-        </div>
+      <div class="form-group">
+        <label>Your email</label>
+        <input id="dinnerEmail" type="email" placeholder="so we can match it to your RSVP" />
       </div>
     </div>
 
@@ -650,13 +644,105 @@
     <div class="form-card" style="margin-top:0;">
       <div class="form-group full">
         <label>Anything else we should know?</label>
-        <textarea placeholder="Notes, last-minute allergies, anything…"></textarea>
+        <textarea id="dinnerNotes" placeholder="Notes, last-minute allergies, anything…"></textarea>
       </div>
     </div>
 
-    <button class="btn-submit" onclick="return false;">Send my picks</button>
+    <button class="btn-submit" onclick="submitDinnerForm()">Send my picks</button>
+    <div id="dinnerStatus" class="dinner-status" style="text-align:center; margin-top:1rem; min-height:1.2rem; font-size:0.9rem; line-height:1.5;"></div>
 
     <script>
+      var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzosPOXexn2X5hb1pcSyP84I-jfsprBnpl5By-0ewHQ69VJ24B1yEYKhP3epmpimloz/exec';
+      var DINNER_SOURCE = 'hotel';
+
+      function courseLabel(textEl) {
+        if (!textEl) return '';
+        var hasV = !!textEl.querySelector('.v-mini');
+        var clone = textEl.cloneNode(true);
+        var v = clone.querySelector('.v-mini');
+        if (v) v.remove();
+        return clone.textContent.trim() + (hasV ? ' (v)' : '');
+      }
+
+      function collectDinnerData() {
+        var email = (document.getElementById('dinnerEmail').value || '').trim();
+        var notes = (document.getElementById('dinnerNotes').value || '').trim();
+        var guests = [];
+        document.querySelectorAll('#dinnerGuestList .guest-card').forEach(function(card) {
+          var name = (card.querySelector('.guest-fields input[type="text"]').value || '').trim();
+          var parts = name.split(/\s+/).filter(Boolean);
+          var firstName = parts.shift() || '';
+          var lastName = parts.join(' ');
+          var typeEl = card.querySelector('.type-option.selected span');
+          var type = typeEl ? typeEl.textContent.trim() : 'Adult';
+          var picks = card.querySelectorAll('.course-pick');
+          var starterEl = picks[0] ? picks[0].querySelector('.course-option.selected .co-text') : null;
+          var mainEl    = picks[1] ? picks[1].querySelector('.course-option.selected .co-text') : null;
+          guests.push({
+            firstName: firstName,
+            lastName:  lastName,
+            type:      type,
+            starter:   courseLabel(starterEl),
+            main:      courseLabel(mainEl)
+          });
+        });
+        return {
+          kind:      'dinner_choice',
+          source:    DINNER_SOURCE,
+          timestamp: new Date().toISOString(),
+          email:     email,
+          guests:    guests,
+          notes:     notes
+        };
+      }
+
+      function validateDinnerForm(data) {
+        var errs = [];
+        if (!data.email) errs.push('Please enter your email.');
+        if (!data.guests.length) errs.push('Please add at least one person.');
+        if (data.guests.some(function(g) { return !g.firstName; })) errs.push('Please enter a name for everyone.');
+        if (data.guests.some(function(g) { return !g.starter || !g.main; })) errs.push('Please pick a starter and a main for everyone.');
+        return errs;
+      }
+
+      function submitDinnerForm() {
+        var statusEl = document.getElementById('dinnerStatus');
+        var btn = document.querySelector('.dinner-form .btn-submit');
+        var data = collectDinnerData();
+        var errs = validateDinnerForm(data);
+
+        statusEl.style.color = '';
+        if (errs.length) {
+          statusEl.style.color = '#b55252';
+          statusEl.innerHTML = errs.join('<br>');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.textContent = 'Sending…';
+        statusEl.style.color = 'var(--mid)';
+        statusEl.textContent = '';
+
+        fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode:   'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(data)
+        }).then(function() {
+          btn.textContent = 'Sent ✓';
+          btn.style.background = 'var(--sage)';
+          statusEl.style.color = 'var(--fern-dk)';
+          statusEl.innerHTML = '<strong>Thank you!</strong> Your picks have been saved.';
+        }).catch(function() {
+          btn.disabled = false;
+          btn.style.opacity = '';
+          btn.textContent = 'Send my picks';
+          statusEl.style.color = '#b55252';
+          statusEl.textContent = 'Something went wrong. Please try again or message us.';
+        });
+      }
+
       let dinnerGuestCount = 0;
       function addDinnerGuest() {
         dinnerGuestCount++;

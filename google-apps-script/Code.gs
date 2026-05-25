@@ -38,9 +38,11 @@ var HEADERS = [
 var DINNER_SHEET_NAME = 'Sat Dinner Choices';
 var DINNER_HEADERS = [
   'Timestamp',
+  'Source',
   'Email',
   'First Name',
   'Last Name',
+  'Adult/Child',
   'Starter',
   'Main',
   'Notes'
@@ -122,6 +124,7 @@ function handleDinnerChoice(data) {
   }
 
   var timestamp = data.timestamp || new Date().toISOString();
+  var source = data.source || '';
   var email = data.email || '';
   var notes = data.notes || '';
   var guests = data.guests || [];
@@ -130,9 +133,11 @@ function handleDinnerChoice(data) {
     var g = guests[i];
     sheet.appendRow([
       timestamp,
+      source,
       email,
       g.firstName || '',
       g.lastName || '',
+      g.type || 'Adult',
       g.starter || '',
       g.main || '',
       i === 0 ? notes : ''
