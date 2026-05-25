@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonja &amp; Giacomo · Programme of Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --birch-lt:#f5f0e8; --birch:#e8dfd0; --birch-dk:#d4c8b4;
+    --sage:#8fa68c; --sage-lt:#b8cbb5; --sage-dk:#6b8568;
+    --fern:#4d6b52; --fern-dk:#3a5240;
+    --moss:#2c3d2e; --moss-dk:#1e2b1f;
+    --azure:#CDDFE9; --pale-blue:#AEBED5; --grey-blue:#859BBA; --dark-blue:#404D77;
+    --ink:#222d23; --mid:#5a6b58;
+    --line:rgba(143,166,140,0.28);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--birch-lt); color: var(--ink);
+    font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  }
+
+  /* Mini hero */
+  .page-hero {
+    background: var(--moss-dk); color: var(--birch-lt);
+    text-align: center; padding: 3rem 1.5rem 2.4rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.1;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--sage-lt); }
+
+  /* Schedule — copy of source ── */
+  .schedule { background: var(--moss); padding: 5rem 1.5rem; }
+  .container { max-width: 780px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 300;
+    line-height: 1.15; margin-bottom: 2rem; color: var(--birch-lt);
+  }
+  .schedule-intro {
+    color: rgba(205,223,233,0.5); font-size: 0.85rem;
+    margin-bottom: 3rem; font-style: italic;
+  }
+
+  .day-block { margin-bottom: 4rem; }
+  .day-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    border-bottom: 1px solid rgba(143,166,140,0.2);
+    padding-bottom: 0.8rem; margin-bottom: 2rem;
+  }
+  .day-name { font-family: 'Cormorant Garamond', serif; font-size: 2.1rem; font-weight: 300; color: var(--birch-lt); }
+  .day-date { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--sage-lt); opacity: 0.8; }
+  .day-badge {
+    margin-left: auto; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    background: rgba(143,166,140,0.12); border: 1px solid rgba(143,166,140,0.28);
+    color: var(--sage-lt); padding: 0.3em 0.9em; border-radius: 50px;
+  }
+  .events { display: flex; flex-direction: column; }
+  .event {
+    display: grid; grid-template-columns: 95px 1fr; gap: 0 1.5rem;
+    padding: 1.1rem 0; border-bottom: 1px solid rgba(143,166,140,0.1);
+  }
+  .event:last-child { border-bottom: none; }
+  .event-time { font-size: 0.76rem; letter-spacing: 0.06em; color: rgba(232,223,208,0.5); padding-top: 0.18rem; font-weight: 300; }
+  .event-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--birch-lt); margin-bottom: 0.2rem; }
+  .event-desc { font-size: 0.84rem; color: rgba(232,223,208,0.42); line-height: 1.55; }
+  .event-tag {
+    display: inline-block; font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0.18em 0.65em; border-radius: 20px; margin-left: 0.6rem;
+    vertical-align: middle; position: relative; top: -2px;
+  }
+  .tag-ceremony { background: rgba(184,203,181,0.15); border: 1px solid rgba(184,203,181,0.4); color: #d2e8ce; }
+  .tag-party { background: rgba(107,133,104,0.18); border: 1px solid rgba(107,133,104,0.35); color: var(--sage-lt); }
+  .tag-relax { background: rgba(143,166,140,0.18); border: 1px solid rgba(143,166,140,0.4); color: var(--sage-lt); }
+
+  .ev-badge {
+    display: inline-block;
+    font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+    border-radius: 50px; padding: 0.25em 0.75em;
+    margin-left: 0.55rem; vertical-align: middle; position: relative; top: -2px;
+    font-family: 'Jost', sans-serif; font-weight: 400;
+  }
+  .ev-badge.together { background: rgba(143,166,140,0.18); border: 1px solid rgba(143,166,140,0.4); color: var(--sage-lt); }
+  .ev-badge.organized { background: rgba(77,107,82,0.18); border: 1px solid rgba(77,107,82,0.4); color: #c2d9c0; }
+  .ev-badge.spontaneous { background: rgba(133,155,186,0.15); border: 1px solid rgba(133,155,186,0.35); color: var(--pale-blue); }
+
+  .day-free-note {
+    background: rgba(77,107,82,0.1); border: 1px solid rgba(143,166,140,0.15);
+    border-radius: 4px; padding: 1.1rem 1.4rem;
+    font-size: 0.84rem; color: rgba(232,223,208,0.45); line-height: 1.6; margin-top: 0.5rem;
+  }
+  .day-free-note strong { color: var(--sage-lt); font-weight: 400; }
+
+  footer {
+    background: var(--moss-dk); color: rgba(232,223,208,0.3);
+    text-align: center; padding: 2.5rem 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.14em;
+  }
+  footer span { color: var(--sage); }
+
+  @media (max-width:680px) {
+    .event { grid-template-columns: 70px 1fr; }
+    .day-badge { display: none; }
+  }
+
+  /* ===== Shared site navigation ===== */
+  .site-nav { position: sticky; top: 0; z-index: 90; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); font-family: 'Jost', sans-serif; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; min-height: 3.4rem; }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--birch-lt); text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+  .nav-brand:hover { color: var(--sage-lt); text-decoration: none; }
+  .nav-toggle { display: none; background: none; border: none; color: var(--birch-lt); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.3rem 0.4rem; }
+  .nav-menu { display: flex; align-items: center; gap: 0.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu > li { position: relative; }
+  .nav-menu > li > a, .nav-parent { display: block; padding: 0.7rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,223,208,0.78); text-decoration: none; cursor: pointer; white-space: nowrap; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .nav-menu > li > a:hover, .nav-parent:hover { color: var(--birch-lt); text-decoration: none; }
+  .nav-parent .caret { font-size: 0.85em; opacity: 0.6; margin-left: 0.2em; }
+  .nav-sub { position: absolute; top: 100%; left: 0; min-width: 210px; background: var(--moss-dk); border: 1px solid rgba(143,166,140,0.25); border-top: 2px solid var(--sage); border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0.3rem 0; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 95; }
+  .has-sub:hover .nav-sub, .has-sub.open .nav-sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-sub li a { display: block; padding: 0.6rem 1.1rem; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(232,223,208,0.72); text-decoration: none; white-space: nowrap; }
+  .nav-sub li a:hover { background: rgba(143,166,140,0.16); color: var(--birch-lt); text-decoration: none; }
+  @media (max-width: 880px) {
+    .nav-toggle { display: block; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); padding: 0.4rem 0; max-height: 80vh; overflow-y: auto; }
+    .nav-menu.open { display: flex; }
+    .nav-menu > li > a, .nav-parent { padding: 0.85rem 1.2rem; font-size: 0.72rem; }
+    .nav-sub { position: static; opacity: 1; visibility: visible; transform: none; border: none; border-top: none; background: rgba(0,0,0,0.2); padding: 0; min-width: 0; }
+    .nav-sub li a { padding: 0.7rem 1.2rem 0.7rem 2.2rem; }
+    .nav-parent .caret { float: right; }
+  }
+  /* keep language pill clear of the top nav on menu pages */
+  .lang-switch { top: auto !important; bottom: 1rem !important; }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Sonja &amp; Giacomo</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact_location.html">Contact &amp; Location</a></li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Accommodation<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="villa_house_rules.html">Sleeping at the Villa</a></li>
+          <li><a href="hotel_guests_info.html">Sleeping at the B&amp;B</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Menu<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="saturday_pool_party_menu.html">Saturday Pool Gathering Menu</a></li>
+          <li><a href="saturday_dinner_menu.html">Saturday Dinner Menu</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Recipes<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="recipe_aperol_spritz.html">Aperol Spritz</a></li>
+          <li><a href="recipe_gin_tonic.html">Gin Tonic</a></li>
+          <li><a href="recipe_negroni.html">Negroni</a></li>
+          <li><a href="recipe_virgin_mojito.html">Virgin Mojito</a></li>
+          <li><a href="recipe_elderflower_cucumber.html">Elderflower &amp; Cucumber</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<header class="page-hero">
+  <div class="hero-eyebrow">Sonja &amp; Giacomo · Wedding Weekend</div>
+  <h1 class="hero-title">Programme of <em>Events</em></h1>
+</header>
+
+<section class="schedule">
+  <div class="container">
+    <p class="section-label">The Weekend</p>
+    <h2 class="section-title">Programme of Events</h2>
+    <p class="schedule-intro">All times approximate — this is Tuscany, after all.</p>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Friday</span>
+        <span class="day-date">29 May</span>
+        <span class="day-badge">Arrival Day</span>
+      </div>
+      <div class="events">
+        <div class="event">
+          <span class="event-time">From 3 PM</span>
+          <div>
+            <div class="event-title">Villa opens</div>
+            <div class="event-desc">Settle in, explore the grounds, claim your spot by the pool.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">7 PM</span>
+          <div>
+            <div class="event-title">Pasta Night &amp; Welcome Drinks <span class="ev-badge together">Together</span></div>
+            <div class="event-desc">Two pastas on the table — one meat-based, one vegetarian. Drinks flowing. The weekend begins.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Saturday</span>
+        <span class="day-date">30 May</span>
+        <span class="day-badge">✦ The Wedding Day</span>
+      </div>
+      <div class="events">
+        <div class="event">
+          <span class="event-time">10–11:30 AM</span>
+          <div>
+            <div class="event-title">Breakfast <span class="ev-badge together">Together</span></div>
+            <div class="event-desc">Cooked collaboratively by hosts and guests. Come help chop, brew, and lay the table — a proper morning together.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">12–4 PM</span>
+          <div>
+            <div class="event-title">Pool Gathering</div>
+            <div class="event-desc">Open bar, finger-food buffet, sun, and very little agenda. This is the heart of the weekend.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">4–5 PM</span>
+          <div>
+            <div class="event-title">Get ready <span class="event-tag" style="background:#FFEFC3;border:1px solid #e8c97a;color:#7a6830;">Glam Up ✨</span></div>
+            <div class="event-desc">Time to transform. Elegant cocktail attire required from this point on.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">5–6 PM</span>
+          <div>
+            <div class="event-title">Aperitivo &amp; Gathering <span class="ev-badge organized">Host-organized</span></div>
+            <div class="event-desc">Come together, drinks in hand. Golden hour over the Tuscan hills — the calm before the ceremony.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">6–7 PM</span>
+          <div>
+            <div class="event-title">Ceremony <span class="event-tag tag-ceremony">✦ Ceremony</span></div>
+            <div class="event-desc">The moment we've been waiting for. Followed by champagne and celebration.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">7–8 PM</span>
+          <div>
+            <div class="event-title">Grilling &amp; Pre-dinner drinks</div>
+            <div class="event-desc">A few of us will be at the grill — volunteers very welcome. The waiter will be on hand to help.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">8–10 PM</span>
+          <div>
+            <div class="event-title">Wedding Dinner <span class="ev-badge organized">Host-organized</span></div>
+            <div class="event-desc">The celebration dinner, with light music in the background. Long, unhurried, full of toasts.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">10 PM →</span>
+          <div>
+            <div class="event-title">The Party <span class="event-tag tag-party">Dance</span></div>
+            <div class="event-desc">We've prepared the playlists. The rest is up to you.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Sunday</span>
+        <span class="day-date">31 May</span>
+        <span class="day-badge">Celebration</span>
+      </div>
+      <div class="events">
+        <div class="event">
+          <span class="event-time">8–10 AM</span>
+          <div>
+            <div class="event-title">Breakfast <span class="ev-badge together">Together</span><span class="ev-badge spontaneous">Spontaneous</span></div>
+            <div class="event-desc">Food is stocked and available. Make yourself at home and find your own pace — we'll all find each other eventually.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">1 PM</span>
+          <div>
+            <div class="event-title">Lunch <span class="ev-badge together">Together</span></div>
+            <div class="event-desc">A proper sit-down lunch with grilled meat, organized by us. The second big gathering of the weekend.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">Afternoon</span>
+          <div>
+            <div class="event-title">Free Time <span class="event-tag tag-relax">Relax</span></div>
+            <div class="event-desc">Sleep. Swim. Wander the Tuscan hills. No schedule, no obligations.</div>
+          </div>
+        </div>
+        <div class="event">
+          <span class="event-time">7 PM</span>
+          <div>
+            <div class="event-title">Pizza Dinner <span class="ev-badge together">Together</span></div>
+            <div class="event-desc">Wind down with good pizza, great company, and no dress code required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Monday</span>
+        <span class="day-date">1 June</span>
+        <span class="day-badge">Free Day</span>
+      </div>
+      <div class="events">
+        <div class="event">
+          <span class="event-time">All day</span>
+          <div>
+            <div class="event-title">No organized schedule</div>
+            <div class="event-desc">The day is entirely yours — explore Lucca, rest by the pool, take a day trip. Absolutely no agenda.</div>
+          </div>
+        </div>
+      </div>
+      <div class="day-free-note">
+        <strong>Meals on Monday:</strong> There are no organized meals today. The kitchen will be stocked and you're welcome to help yourself at any time — breakfast, lunch, snacks, whatever you fancy. In the evening we'll likely gather spontaneously for dinner together; join us if you feel like it, no pressure and no fixed time.
+      </div>
+    </div>
+
+    <div class="day-block">
+      <div class="day-header">
+        <span class="day-name">Tuesday</span>
+        <span class="day-date">2 June</span>
+        <span class="day-badge">Departure</span>
+      </div>
+      <div class="events">
+        <div class="event">
+          <span class="event-time">By 10 AM</span>
+          <div>
+            <div class="event-title">Check-out</div>
+            <div class="event-desc">By 10:00 AM. Safe travels — and thank you, from the bottom of our hearts, for being part of this.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  With all our love, <span>Sonja &amp; Giacomo</span> &nbsp;·&nbsp; Corte Benedetto, Tuscany &nbsp;·&nbsp; May 2026
+</footer>
+
+</body>
+</html>

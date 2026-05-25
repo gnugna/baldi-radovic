@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negroni · Sonja &amp; Giacomo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --birch-lt:#f5f0e8; --birch:#e8dfd0; --sage:#8fa68c; --sage-lt:#b8cbb5; --sage-dk:#6b8568;
+    --fern:#4d6b52; --fern-dk:#3a5240; --moss:#2c3d2e; --moss-dk:#1e2b1f;
+    --azure:#CDDFE9; --grey-blue:#859BBA; --dark-blue:#404D77;
+    --ink:#222d23; --mid:#5a6b58;
+    --line:rgba(143,166,140,0.28); --accent:#a04030;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--birch-lt); color: var(--ink);
+    font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.55;
+    -webkit-font-smoothing: antialiased; min-height: 100vh;
+  }
+  .wrap { max-width: 580px; margin: 0 auto; padding: 0; }
+  .hero {
+    background: var(--moss); color: var(--birch-lt);
+    padding: 2.4rem 1.6rem 2.2rem; text-align: center;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 0.9rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(3rem, 10vw, 4.2rem); line-height: 1;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--sage-lt); }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.15rem; color: var(--sage-lt); margin-top: 0.7rem;
+  }
+  .badges {
+    display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;
+    margin-top: 1.3rem;
+  }
+  .badge {
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    background: rgba(143,166,140,0.18); border: 1px solid rgba(143,166,140,0.35);
+    color: var(--sage-lt); padding: 0.32em 0.85em; border-radius: 50px;
+  }
+  .panel { padding: 2rem 1.6rem; }
+
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+
+  .ingredients { background: var(--birch); }
+  .ing {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; padding: 1.05rem 0; border-bottom: 1px solid var(--line);
+  }
+  .ing:last-child { border-bottom: none; }
+  .ing-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem;
+    font-weight: 400; color: var(--ink); line-height: 1.2;
+  }
+  .ing-name em { font-style: italic; color: var(--sage-dk); font-size: 0.95rem; display: block; margin-top: 0.15rem; }
+  .ing-qty {
+    font-family: 'Jost', sans-serif; font-size: 1.5rem; font-weight: 500;
+    color: var(--dark-blue); white-space: nowrap;
+  }
+  .ing-qty small { font-size: 0.8rem; font-weight: 400; color: var(--mid); letter-spacing: 0.04em; margin-left: 0.2rem; }
+
+  .method { background: var(--birch-lt); }
+  .step {
+    display: grid; grid-template-columns: 44px 1fr; gap: 1rem;
+    align-items: flex-start; padding: 0.9rem 0;
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+    font-style: italic; color: var(--fern); line-height: 1;
+    text-align: center; padding-top: 0.15rem;
+  }
+  .step-text { font-size: 1.05rem; color: var(--ink); line-height: 1.55; }
+  .step-text strong { color: var(--fern-dk); font-weight: 500; }
+
+  .glass-tip {
+    background: var(--azure); border-left: 3px solid var(--grey-blue);
+    padding: 1.1rem 1.4rem; border-radius: 0 4px 4px 0;
+    font-size: 0.95rem; color: var(--ink); line-height: 1.6; margin-top: 1.4rem;
+  }
+  .glass-tip strong { color: var(--dark-blue); font-weight: 600; }
+
+  .footer-strip {
+    background: var(--moss-dk); color: rgba(232,223,208,0.45);
+    text-align: center; padding: 1.4rem 1.5rem;
+    font-size: 0.72rem; letter-spacing: 0.18em;
+  }
+  .footer-strip span { color: var(--sage); }
+
+  @media (max-width: 420px) {
+    .hero { padding: 2rem 1.2rem 1.8rem; }
+    .panel { padding: 1.6rem 1.2rem; }
+    .ing-name { font-size: 1.3rem; }
+    .ing-qty { font-size: 1.3rem; }
+  }
+
+  /* ===== Shared site navigation ===== */
+  .site-nav { position: sticky; top: 0; z-index: 90; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); font-family: 'Jost', sans-serif; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; min-height: 3.4rem; }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--birch-lt); text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+  .nav-brand:hover { color: var(--sage-lt); text-decoration: none; }
+  .nav-toggle { display: none; background: none; border: none; color: var(--birch-lt); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.3rem 0.4rem; }
+  .nav-menu { display: flex; align-items: center; gap: 0.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu > li { position: relative; }
+  .nav-menu > li > a, .nav-parent { display: block; padding: 0.7rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,223,208,0.78); text-decoration: none; cursor: pointer; white-space: nowrap; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .nav-menu > li > a:hover, .nav-parent:hover { color: var(--birch-lt); text-decoration: none; }
+  .nav-parent .caret { font-size: 0.85em; opacity: 0.6; margin-left: 0.2em; }
+  .nav-sub { position: absolute; top: 100%; left: 0; min-width: 210px; background: var(--moss-dk); border: 1px solid rgba(143,166,140,0.25); border-top: 2px solid var(--sage); border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0.3rem 0; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 95; }
+  .has-sub:hover .nav-sub, .has-sub.open .nav-sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-sub li a { display: block; padding: 0.6rem 1.1rem; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(232,223,208,0.72); text-decoration: none; white-space: nowrap; }
+  .nav-sub li a:hover { background: rgba(143,166,140,0.16); color: var(--birch-lt); text-decoration: none; }
+  @media (max-width: 880px) {
+    .nav-toggle { display: block; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); padding: 0.4rem 0; max-height: 80vh; overflow-y: auto; }
+    .nav-menu.open { display: flex; }
+    .nav-menu > li > a, .nav-parent { padding: 0.85rem 1.2rem; font-size: 0.72rem; }
+    .nav-sub { position: static; opacity: 1; visibility: visible; transform: none; border: none; border-top: none; background: rgba(0,0,0,0.2); padding: 0; min-width: 0; }
+    .nav-sub li a { padding: 0.7rem 1.2rem 0.7rem 2.2rem; }
+    .nav-parent .caret { float: right; }
+  }
+  /* keep language pill clear of the top nav on menu pages */
+  .lang-switch { top: auto !important; bottom: 1rem !important; }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Sonja &amp; Giacomo</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact_location.html">Contact &amp; Location</a></li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Accommodation<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="villa_house_rules.html">Sleeping at the Villa</a></li>
+          <li><a href="hotel_guests_info.html">Sleeping at the B&amp;B</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Menu<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="saturday_pool_party_menu.html">Saturday Pool Gathering Menu</a></li>
+          <li><a href="saturday_dinner_menu.html">Saturday Dinner Menu</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Recipes<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="recipe_aperol_spritz.html">Aperol Spritz</a></li>
+          <li><a href="recipe_gin_tonic.html">Gin Tonic</a></li>
+          <li><a href="recipe_negroni.html">Negroni</a></li>
+          <li><a href="recipe_virgin_mojito.html">Virgin Mojito</a></li>
+          <li><a href="recipe_elderflower_cucumber.html">Elderflower &amp; Cucumber</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-eyebrow">Wedding Bar · Recipe</div>
+  <h1 class="hero-title"><em>Negroni</em></h1>
+  <p class="hero-subtitle">The classic Italian bitter — three parts, no fuss.</p>
+  <div class="badges">
+    <span class="badge">1 serving</span>
+    <span class="badge">~2 min</span>
+    <span class="badge">Stirred</span>
+  </div>
+</header>
+
+<section class="panel ingredients">
+  <div class="section-label">Ingredients</div>
+
+  <div class="ing">
+    <div class="ing-name">Gin</div>
+    <div class="ing-qty">30 <small>ml</small></div>
+  </div>
+  <div class="ing">
+    <div class="ing-name">Campari</div>
+    <div class="ing-qty">30 <small>ml</small></div>
+  </div>
+  <div class="ing">
+    <div class="ing-name">Sweet Vermouth<em>vermut rosso</em></div>
+    <div class="ing-qty">30 <small>ml</small></div>
+  </div>
+  <div class="ing">
+    <div class="ing-name">Orange peel<em>for garnish</em></div>
+    <div class="ing-qty">1</div>
+  </div>
+  <div class="ing">
+    <div class="ing-name">Big ice cubes</div>
+    <div class="ing-qty">3–4</div>
+  </div>
+</section>
+
+<section class="panel method">
+  <div class="section-label">Method</div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">Fill a <strong>rocks glass</strong> with big ice cubes.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Pour in <strong>gin, Campari and sweet vermouth</strong> — equal parts, straight over the ice.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">Stir gently for about <strong>20 seconds</strong> with a bar spoon, until well chilled.</div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">Twist an <strong>orange peel</strong> over the glass to release the oils, then drop it in.</div>
+  </div>
+
+  <div class="glass-tip">
+    <strong>Glass:</strong> short rocks / old-fashioned glass &nbsp;·&nbsp; <strong>Tip:</strong> the bigger the ice, the slower it melts — keep the balance.
+  </div>
+</section>
+
+<div class="footer-strip">
+  Sonja &amp; Giacomo &nbsp;·&nbsp; <span>Open Bar</span> &nbsp;·&nbsp; Corte Benedetto
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonja &amp; Giacomo · Living at the Villa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --birch-lt:#f5f0e8; --birch:#e8dfd0; --birch-dk:#d4c8b4;
+    --sage:#8fa68c; --sage-lt:#b8cbb5; --sage-dk:#6b8568;
+    --fern:#4d6b52; --fern-dk:#3a5240;
+    --moss:#2c3d2e; --moss-dk:#1e2b1f;
+    --azure:#CDDFE9; --pale-blue:#AEBED5; --grey-blue:#859BBA; --dark-blue:#404D77;
+    --ink:#222d23; --mid:#5a6b58;
+    --line:rgba(143,166,140,0.28); --line-blue:rgba(133,155,186,0.25);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--birch-lt); color: var(--ink);
+    font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: var(--grey-blue); text-decoration: none; }
+  a:hover { color: var(--fern); text-decoration: underline; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    background: var(--moss); color: var(--birch-lt);
+    text-align: center; padding: 4rem 1.5rem 2.5rem;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 55% at 50% 100%,
+      rgba(77,107,82,0.38) 0%, transparent 65%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+  .hero-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 1.6rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2.8rem, 7vw, 4.6rem); line-height: 1.05;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--sage-lt); }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.15rem; color: var(--sage-lt); margin-top: 1.4rem;
+    max-width: 560px; margin-left: auto; margin-right: auto;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2.6rem;
+  }
+  .btn-cta {
+    font-family: 'Jost', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 0.95rem 1.8rem; border-radius: 2px; cursor: pointer;
+    transition: all 0.2s; text-decoration: none; display: inline-block;
+  }
+  .btn-cta.primary { background: var(--sage-lt); color: var(--moss-dk); border: 1px solid var(--sage-lt); font-weight: 500; }
+  .btn-cta.primary:hover { background: #cdddca; border-color: #cdddca; text-decoration: none; }
+  .btn-cta.ghost { background: transparent; border: 1px solid rgba(184,203,181,0.5); color: var(--birch-lt); }
+  .btn-cta.ghost:hover { border-color: var(--sage-lt); background: rgba(143,166,140,0.12); text-decoration: none; color: var(--birch-lt); }
+
+  /* Scroll cue */
+  .scroll-cue {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    margin: 2.6rem auto 0;
+  }
+  .scroll-cue span {
+    font-size: 0.55rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--sage-dk);
+  }
+  .scroll-cue svg { animation: bob 1.8s ease-in-out infinite; }
+  .scroll-cue.on-dark span { color: var(--sage-lt); }
+  .scroll-cue.on-dark svg { stroke: var(--sage-lt); }
+  .scroll-cue:not(.on-dark) svg { stroke: var(--fern); }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); opacity: 0.55; }
+    50% { transform: translateY(7px); opacity: 1; }
+  }
+
+  section { padding: 4.5rem 1.5rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  .container-wide { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 300;
+    line-height: 1.15; margin-bottom: 1.4rem; color: var(--ink);
+  }
+  .section-title em { font-style: italic; color: var(--fern); }
+  .intro-p { font-size: 1.05rem; color: var(--mid); margin-bottom: 1rem; max-width: 640px; }
+  .intro-p strong { color: var(--ink); font-weight: 500; }
+
+  /* Welcome */
+  .welcome { background: var(--birch); text-align: center; }
+  .welcome .container { max-width: 660px; }
+  .welcome .intro-p { margin: 0 auto 1rem; }
+  .motto {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.6rem; color: var(--dark-blue); line-height: 1.3;
+    margin-top: 1.4rem; max-width: 540px; margin-left: auto; margin-right: auto;
+  }
+
+  /* Villa facts */
+  .villa-facts { background: var(--birch-lt); }
+  .fact-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.4rem; margin-top: 2rem;
+  }
+  .fact-card {
+    background: var(--birch); border: 1px solid var(--line);
+    border-top: 3px solid var(--sage);
+    padding: 1.3rem 1.4rem; border-radius: 3px;
+  }
+  .fact-card.blue-top { border-top-color: var(--grey-blue); }
+  .fact-card.dark-top { border-top-color: var(--dark-blue); }
+  .fact-eyebrow {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.5rem;
+  }
+  .fact-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+    color: var(--ink); margin-bottom: 0.35rem; font-weight: 400;
+  }
+  .fact-body { font-size: 0.92rem; color: var(--mid); line-height: 1.6; }
+
+  .accom-note {
+    margin-top: 2.2rem; background: var(--azure);
+    border-left: 3px solid var(--grey-blue);
+    padding: 1.3rem 1.5rem; border-radius: 0 4px 4px 0;
+    font-size: 0.96rem; color: var(--ink); line-height: 1.7;
+  }
+  .accom-note strong { color: var(--dark-blue); font-weight: 600; }
+
+  /* At a glance */
+  .glance { background: var(--moss); color: var(--birch-lt); text-align: center; }
+  .glance .section-label { color: var(--sage-lt); }
+  .glance .section-title { color: var(--birch-lt); }
+  .glance .section-title em { color: var(--sage-lt); }
+  .glance-intro { color: rgba(232,223,208,0.55); font-size: 0.98rem; margin: 0 auto 2.4rem; max-width: 520px; font-style: italic; }
+  .glance-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.2rem; max-width: 920px; margin: 0 auto;
+  }
+  .glance-card {
+    background: rgba(143,166,140,0.08); border: 1px solid rgba(143,166,140,0.22);
+    border-radius: 6px; padding: 1.7rem 1.1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+  }
+  .glance-icon {
+    width: 46px; height: 46px; color: var(--sage-lt);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .glance-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage-lt);
+  }
+  .glance-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.35rem;
+    color: var(--birch-lt); font-weight: 400; line-height: 1.2;
+  }
+  .glance-sub { font-size: 0.8rem; color: rgba(232,223,208,0.5); line-height: 1.4; }
+
+  /* Details (merged practical + rules) */
+  .details { background: var(--birch); }
+  .detail-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.3rem; margin-top: 2rem;
+  }
+  .detail-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-top: 3px solid var(--sage);
+    border-radius: 4px; padding: 1.5rem 1.6rem;
+  }
+  .detail-card.blue-top { border-top-color: var(--grey-blue); }
+  .detail-card.dark-top { border-top-color: var(--dark-blue); }
+  .detail-head {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+    padding-bottom: 0.85rem; border-bottom: 1px solid var(--line);
+  }
+  .detail-icon { width: 28px; height: 28px; color: var(--fern); flex-shrink: 0; }
+  .detail-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
+    color: var(--ink); font-weight: 400;
+  }
+  .detail-list { list-style: none; margin: 0; padding: 0; }
+  .detail-list li {
+    position: relative; padding: 0.5rem 0 0.5rem 1.4rem;
+    font-size: 0.95rem; color: var(--mid); line-height: 1.55;
+  }
+  .detail-list li::before {
+    content: ''; position: absolute; left: 0.2rem; top: 0.95rem;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--sage);
+  }
+  .detail-list li strong { color: var(--fern-dk); font-weight: 500; }
+
+  /* Extras */
+  .extras { background: var(--birch-lt); }
+  .extra-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem; margin-top: 1.8rem;
+  }
+  .extra-card {
+    background: var(--birch); border-left: 3px solid var(--fern);
+    border-radius: 0 3px 3px 0; padding: 1.2rem 1.4rem;
+  }
+  .extra-card.blue { border-left-color: var(--grey-blue); }
+  .extra-card.dark { border-left-color: var(--dark-blue); }
+  .extra-eyebrow {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.5rem;
+  }
+  .extra-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+    color: var(--ink); margin-bottom: 0.35rem; font-weight: 400;
+  }
+  .extra-body { font-size: 0.9rem; color: var(--mid); line-height: 1.6; }
+  .extra-body a { color: var(--dark-blue); font-weight: 500; }
+  .contact-line {
+    display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;
+    font-size: 0.95rem; color: var(--ink);
+  }
+  .contact-line a { color: var(--dark-blue); font-weight: 500; }
+  .wa-icon { width: 16px; height: 16px; color: var(--fern); flex-shrink: 0; }
+
+  /* Wedding dinner form */
+  .dinner-form { background: var(--birch); }
+  .dinner-form .section-title em { font-style: italic; color: var(--fern); }
+  .menu-snapshot {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.3rem 1.5rem; margin-top: 1.4rem; margin-bottom: 2rem;
+  }
+  .menu-snapshot .ms-course {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--fern); margin: 0.6rem 0 0.3rem;
+  }
+  .menu-snapshot .ms-course:first-child { margin-top: 0; }
+  .menu-snapshot .ms-item {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    color: var(--ink); font-weight: 400; line-height: 1.3;
+  }
+  .menu-snapshot .ms-item .v {
+    display: inline-block; font-size: 0.55rem; letter-spacing: 0.18em;
+    text-transform: uppercase; padding: 0.18em 0.55em; border-radius: 20px;
+    background: rgba(143,166,140,0.2); border: 1px solid var(--sage);
+    color: var(--fern-dk); font-weight: 500; margin-left: 0.45rem;
+    vertical-align: middle; position: relative; top: -2px;
+  }
+  .menu-snapshot .ms-desc { font-size: 0.85rem; color: var(--mid); margin-top: 0.1rem; }
+  .form-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.6rem 1.8rem; margin-bottom: 1rem;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--sage-dk); font-weight: 400;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.3);
+    border-radius: 2px; padding: 0.65rem 0.9rem;
+    font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--ink);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(90,107,88,0.45); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--dark-blue); box-shadow: 0 0 0 3px rgba(64,77,119,0.1);
+  }
+  .form-group textarea { height: 88px; resize: vertical; }
+  .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  .type-option {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.28);
+    border-radius: 3px; padding: 0.52rem; text-align: center;
+    cursor: pointer; transition: all 0.15s; font-size: 0.87rem; color: var(--mid);
+  }
+  .type-option:hover { border-color: var(--sage); color: var(--ink); }
+  .type-option.selected { background: var(--moss); border-color: var(--moss); color: var(--birch-lt); }
+  .course-pick { display: grid; gap: 0.4rem; }
+  .course-option {
+    background: var(--birch); border: 1px solid rgba(143,166,140,0.28);
+    border-radius: 3px; padding: 0.75rem 0.9rem; cursor: pointer; transition: all 0.15s;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .course-option:hover { border-color: var(--sage); background: var(--birch-dk); }
+  .course-option.selected { background: var(--moss); border-color: var(--moss); color: var(--birch-lt); }
+  .course-option .co-radio {
+    width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--sage-dk);
+    flex-shrink: 0; transition: all 0.15s;
+  }
+  .course-option.selected .co-radio { border-color: var(--sage-lt); background: var(--sage-lt); }
+  .course-option .co-text { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; color: inherit; }
+  .course-option .co-text .v-mini {
+    display: inline-block; font-size: 0.5rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0.15em 0.5em; border-radius: 20px; background: rgba(143,166,140,0.25);
+    border: 1px solid var(--sage); color: var(--fern-dk); font-weight: 500;
+    margin-left: 0.45rem; vertical-align: middle; position: relative; top: -1px;
+  }
+  .course-option.selected .co-text .v-mini { background: rgba(184,203,181,0.2); border-color: var(--sage-lt); color: var(--sage-lt); }
+  .guest-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 3px; padding: 1.3rem 1.3rem 1rem; margin-bottom: 0.8rem;
+  }
+  .guest-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; border-bottom: 1px solid var(--line); padding-bottom: 0.65rem;
+  }
+  .guest-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--ink); font-weight: 400; }
+  .btn-remove-guest {
+    background: transparent; border: 1px solid var(--line); color: var(--mid);
+    font-family: 'Jost', sans-serif; font-size: 0.63rem; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.22em 0.65em; border-radius: 2px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-remove-guest:hover { border-color: #b55252; color: #b55252; }
+  .guest-fields { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  .btn-submit {
+    display: inline-block; margin-top: 1.5rem;
+    background: var(--fern); color: #fff; border: none;
+    padding: 0.9rem 2.8rem; font-family: 'Jost', sans-serif; font-size: 0.75rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: background 0.2s;
+  }
+  .btn-submit:hover { background: var(--fern-dk); }
+  .btn-add-guest {
+    display: block; width: 100%; margin-top: 0.4rem; background: transparent;
+    border: 1px dashed rgba(143,166,140,0.45); color: var(--sage-dk);
+    font-family: 'Jost', sans-serif; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 0.72rem; border-radius: 2px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-add-guest:hover { border-color: var(--sage); color: var(--fern); background: rgba(143,166,140,0.08); }
+
+  /* Thank you */
+  .thanks { background: var(--azure); text-align: center; }
+  .thanks .section-title { color: var(--ink); }
+  .thanks .intro-p { color: var(--fern-dk); margin: 0 auto 1rem; }
+  .thanks .motto { color: var(--dark-blue); }
+
+  footer {
+    background: var(--moss-dk); color: rgba(232,223,208,0.3);
+    text-align: center; padding: 3rem 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.14em;
+  }
+  footer span { color: var(--sage); }
+
+  @media (max-width: 680px) {
+    .fact-grid { grid-template-columns: 1fr; }
+    .detail-grid { grid-template-columns: 1fr; }
+    section { padding: 3.4rem 1.2rem; }
+    .hero-cta { flex-direction: column; align-items: stretch; max-width: 320px; margin-left: auto; margin-right: auto; }
+  }
+
+  /* ===== Shared site navigation ===== */
+  .site-nav { position: sticky; top: 0; z-index: 90; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); font-family: 'Jost', sans-serif; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; min-height: 3.4rem; }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--birch-lt); text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+  .nav-brand:hover { color: var(--sage-lt); text-decoration: none; }
+  .nav-toggle { display: none; background: none; border: none; color: var(--birch-lt); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.3rem 0.4rem; }
+  .nav-menu { display: flex; align-items: center; gap: 0.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu > li { position: relative; }
+  .nav-menu > li > a, .nav-parent { display: block; padding: 0.7rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,223,208,0.78); text-decoration: none; cursor: pointer; white-space: nowrap; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .nav-menu > li > a:hover, .nav-parent:hover { color: var(--birch-lt); text-decoration: none; }
+  .nav-parent .caret { font-size: 0.85em; opacity: 0.6; margin-left: 0.2em; }
+  .nav-sub { position: absolute; top: 100%; left: 0; min-width: 210px; background: var(--moss-dk); border: 1px solid rgba(143,166,140,0.25); border-top: 2px solid var(--sage); border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0.3rem 0; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 95; }
+  .has-sub:hover .nav-sub, .has-sub.open .nav-sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-sub li a { display: block; padding: 0.6rem 1.1rem; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(232,223,208,0.72); text-decoration: none; white-space: nowrap; }
+  .nav-sub li a:hover { background: rgba(143,166,140,0.16); color: var(--birch-lt); text-decoration: none; }
+  @media (max-width: 880px) {
+    .nav-toggle { display: block; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); padding: 0.4rem 0; max-height: 80vh; overflow-y: auto; }
+    .nav-menu.open { display: flex; }
+    .nav-menu > li > a, .nav-parent { padding: 0.85rem 1.2rem; font-size: 0.72rem; }
+    .nav-sub { position: static; opacity: 1; visibility: visible; transform: none; border: none; border-top: none; background: rgba(0,0,0,0.2); padding: 0; min-width: 0; }
+    .nav-sub li a { padding: 0.7rem 1.2rem 0.7rem 2.2rem; }
+    .nav-parent .caret { float: right; }
+  }
+  /* keep language pill clear of the top nav on menu pages */
+  .lang-switch { top: auto !important; bottom: 1rem !important; }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Sonja &amp; Giacomo</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact_location.html">Contact &amp; Location</a></li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Accommodation<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="villa_house_rules.html">Sleeping at the Villa</a></li>
+          <li><a href="hotel_guests_info.html">Sleeping at the B&amp;B</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Menu<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="saturday_pool_party_menu.html">Saturday Pool Gathering Menu</a></li>
+          <li><a href="saturday_dinner_menu.html">Saturday Dinner Menu</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Recipes<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="recipe_aperol_spritz.html">Aperol Spritz</a></li>
+          <li><a href="recipe_gin_tonic.html">Gin Tonic</a></li>
+          <li><a href="recipe_negroni.html">Negroni</a></li>
+          <li><a href="recipe_virgin_mojito.html">Virgin Mojito</a></li>
+          <li><a href="recipe_elderflower_cucumber.html">Elderflower &amp; Cucumber</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-eyebrow">For our guests at the villa</div>
+  <h1 class="hero-title">Welcome to our<br><em>wedding weekend at the villa</em></h1>
+  <p class="hero-subtitle">A few small notes to help us share this beautiful place — and a couple of small things to keep the days easy.</p>
+  <div class="hero-cta">
+    <a href="#dinner-form" class="btn-cta primary">Choose your dinner menu</a>
+    <a href="#details" class="btn-cta ghost">Read the details about the stay</a>
+  </div>
+  <div class="scroll-cue on-dark">
+    <span>Scroll</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<section class="welcome">
+  <div class="container">
+    <p class="section-label">A note from us</p>
+    <h2 class="section-title">You're staying with us<br>at the villa</h2>
+    <p class="intro-p">Welcome — we are <strong>so happy</strong> you'll be staying with us at the villa. The place is gorgeous and we're sure you'll love it as much as we do. We're <strong>so excited</strong> to share these moments with you.</p>
+    <p class="intro-p">This page tells you what to expect when you arrive, where you'll be sleeping, and a couple of friendly things to keep in mind so the days stay easy for everyone.</p>
+    <p class="motto">Make yourself at home.</p>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="villa-facts">
+  <div class="container-wide">
+    <p class="section-label">Where we are</p>
+    <h2 class="section-title">Relais Corte Benedetto · <em>Capannori, Tuscany</em></h2>
+    <p class="intro-p">A 19th-century villa set in the green hills of Capannori — 20 minutes from Lucca, an hour from Pisa or Florence. About 870 m² of space, 13 rooms each with its own private en-suite bathroom, an 18-metre pool, a huge open-plan kitchen, and long communal tables made for slow Italian meals.</p>
+
+    <div class="fact-grid">
+      <div class="fact-card">
+        <div class="fact-eyebrow">Bedrooms</div>
+        <div class="fact-title">13 rooms, all en-suite</div>
+        <div class="fact-body">Every room has its own private bathroom with shower. We'll assign your room when you arrive — keeps things easy.</div>
+      </div>
+      <div class="fact-card blue-top">
+        <div class="fact-eyebrow">Bed</div>
+        <div class="fact-title">One double bed per room</div>
+        <div class="fact-body">Each room has a single large double bed. If you're sharing with a partner, it's yours together; if not, you'll have a room to yourself.</div>
+      </div>
+      <div class="fact-card dark-top">
+        <div class="fact-eyebrow">Outdoor</div>
+        <div class="fact-title">18m pool &amp; terrace</div>
+        <div class="fact-body">A huge pool with sun loungers for everyone, and a long terrace made for sunset dinners over the hills.</div>
+      </div>
+      <div class="fact-card">
+        <div class="fact-eyebrow">Inside</div>
+        <div class="fact-title">Big open kitchen &amp; lounges</div>
+        <div class="fact-body">Two living rooms, a dining room with a C-shaped table for 26, and an open-plan kitchen with a central island — perfect for cooking together.</div>
+      </div>
+      <div class="fact-card blue-top">
+        <div class="fact-eyebrow">Comforts</div>
+        <div class="fact-title">A/C, Wi-Fi, heating</div>
+        <div class="fact-body">Air-con in every room, fast Wi-Fi throughout (network details on the fridge), and heating if the evenings turn cool.</div>
+      </div>
+      <div class="fact-card dark-top">
+        <div class="fact-eyebrow">Parking</div>
+        <div class="fact-title">Space for 6 cars</div>
+        <div class="fact-body">Private parking inside the gate. Based on who's coming, we're expecting <strong>around 8 cars</strong> from the villa crowd — which means a couple will have to park slightly further away. We're checking the options nearby and will coordinate on the spot.</div>
+      </div>
+    </div>
+
+    <div class="accom-note">
+      <strong>Your room:</strong> we'll show you to it when you arrive — it'll be a private room with one large double bed and its own en-suite bathroom. We've thought about who's sleeping where, but please be flexible on the day — small swaps sometimes need to happen, and we promise everyone ends up happy.
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="details" id="details">
+  <div class="container-wide">
+    <p class="section-label">Good to know</p>
+    <h2 class="section-title">Details about the stay</h2>
+    <p class="intro-p">Everything useful in one place — nothing scary, just the little things that keep a house full of people feeling lovely and relaxed. Treat the villa as if it were your own home.</p>
+
+    <div class="detail-grid">
+
+      <div class="detail-card">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v10H3z"/><path d="M7 7V5h10v2"/><path d="M7 12h.01M11 12h.01"/></svg></span>
+          <span class="detail-title">Gentle House Notes</span>
+        </div>
+        <ul class="detail-list">
+          <li><strong>A/C is available</strong> in every room — please switch it off when you leave the room or open a window.</li>
+          <li>Turn off <strong>lights and appliances</strong> when not in use.</li>
+          <li><strong>Kitchen:</strong> the fridge is stocked for breakfast and snacks — help yourself. If you finish something, leave us a note so we can replace it.</li>
+          <li>Wi-Fi network &amp; password are on the kitchen fridge.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card blue-top">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M19 21V10l-7-5-7 5v11"/><path d="M9 21v-6h6v6"/></svg></span>
+          <span class="detail-title">Keeping Things Lovely &amp; Tidy</span>
+        </div>
+        <ul class="detail-list">
+          <li><strong>The villa is not cleaned during our stay</strong> — no one comes in to tidy, so let's all pitch in.</li>
+          <li>Please <strong>clean up after yourself</strong> as you go.</li>
+          <li>If you use dishes or glasses, please <strong>leave them in the dishwasher</strong>.</li>
+          <li>Keep the shared spaces — <strong>living rooms, garden, kitchen</strong> — tidy throughout the stay.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card dark-top">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+          <span class="detail-title">Pool Days &amp; Sun Moments</span>
+        </div>
+        <ul class="detail-list">
+          <li>The pool is <strong>open all day</strong> — enjoy it whenever you like.</li>
+          <li>Please <strong>hydrate and use sunscreen</strong> — the Tuscan sun is sneakier than it looks.</li>
+          <li>Please <strong>rinse off before jumping in</strong> — it keeps the water clean for everyone.</li>
+          <li>Please <strong>bring your towels from your room</strong> out to the pool, and take them back after.</li>
+          <li>Please be <strong>careful with glasses around the pool</strong> — no bare feet should ever meet a broken glass.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M6 22v-4a6 6 0 0 1 12 0v4"/><path d="M9 13l1.5 2M15 13l-1.5 2"/></svg></span>
+          <span class="detail-title">The Little Crew</span>
+        </div>
+        <ul class="detail-list">
+          <li>We just kindly ask that <strong>parents keep a gentle eye on their own children</strong> throughout the days.</li>
+          <li>A few spots deserve extra attention — the <strong>pool, stairs, glass doors</strong>, and busier event evenings — so the kids can explore happily and safely.</li>
+          <li>If we all look out for each other's little ones, everyone gets to relax — many loving eyes are better than few.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card blue-top">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l-1 7a4 4 0 0 1-6 0L8 2z"/><path d="M12 9v9"/><path d="M8 21h8"/></svg></span>
+          <span class="detail-title">Weekend Moments &amp; Champagne Problems</span>
+        </div>
+        <ul class="detail-list">
+          <li>We have <strong>four gatherings</strong> across the weekend — the Saturday Pool Gathering, the Saturday dinner, Sunday lunch and Sunday pizza dinner — with the drinks flowing happily from afternoon through to the early hours, so please pace yourselves, drink responsibly, and enjoy every minute.</li>
+          <li>If something gets <strong>damaged, spilled or broken</strong>, please tell us immediately so we can handle it together — no judgement.</li>
+          <li>Please don't leave bottles, cups or trash lying around after the events.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card dark-top">
+        <div class="detail-head">
+          <span class="detail-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16h14a3 3 0 0 0 0-6"/><path d="M3 13h17v3H3z"/><path d="M16 6c0-1.5 1-2 1-3"/><path d="M19 6c0-1.5 1-2 1-3"/></svg></span>
+          <span class="detail-title">Smoking</span>
+        </div>
+        <ul class="detail-list">
+          <li>Smoking is <strong>only outside</strong>, in the garden or on the terrace.</li>
+          <li>Please use an ashtray — <strong>never the flowerbeds or the pool</strong>.</li>
+          <li>No smoking inside the bedrooms or living areas.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="extras">
+  <div class="container">
+    <p class="section-label">A few more useful bits</p>
+    <h2 class="section-title">Things we thought might help</h2>
+
+    <div class="extra-grid">
+
+      <div class="extra-card">
+        <div class="extra-eyebrow">Arrival</div>
+        <div class="extra-title">Check-in from 3 pm Friday</div>
+        <div class="extra-body">Find Sonja or Giacomo when you arrive — we'll show you your room, the kitchen, where everything lives, and the trick for the front gate. <strong>Please let us know roughly when to expect you on Friday</strong> so we can be ready to welcome you.</div>
+      </div>
+
+      <div class="extra-card blue">
+        <div class="extra-eyebrow">Departure</div>
+        <div class="extra-title">Check-out by 10 am Tuesday</div>
+        <div class="extra-body">Strip the bed, put used towels in the bathroom, leave windows closed and lights off. Final tidy of common areas — many hands make this 15 minutes total.</div>
+      </div>
+
+      <div class="extra-card dark">
+        <div class="extra-eyebrow">Contact</div>
+        <div class="extra-title">Need anything? Just reach out</div>
+        <div class="extra-body">
+          If you forgot to mention something, or need anything at all, please get in touch — WhatsApp is best.
+          <div class="contact-line">
+            <span class="wa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.01c-.24.68-1.4 1.3-1.93 1.38-.5.07-1.12.1-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97s.74-2.11 1-2.4c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.69-.8.87-1.08.18-.28.36-.23.6-.14.24.09 1.55.73 1.81.87.26.14.44.21.5.32.07.12.07.66-.17 1.34z"/></svg></span>
+            Sonja — <a href="https://wa.me/381652058464" target="_blank">+381 65 2058464</a>
+          </div>
+          <div class="contact-line">
+            <span class="wa-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.01c-.24.68-1.4 1.3-1.93 1.38-.5.07-1.12.1-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97s.74-2.11 1-2.4c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.69-.8.87-1.08.18-.28.36-.23.6-.14.24.09 1.55.73 1.81.87.26.14.44.21.5.32.07.12.07.66-.17 1.34z"/></svg></span>
+            Giacomo — <a href="https://wa.me/393332207765" target="_blank">+39 333 2207765</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="dinner-form" id="dinner-form">
+  <div class="container">
+    <p class="section-label">Saturday wedding dinner</p>
+    <h2 class="section-title">Tell us what <em>each of you</em> will eat</h2>
+    <p class="intro-p">For our wedding dinner on Saturday evening, please pick a starter and a main for every person joining you at the villa. Add a card for each guest — adults and children alike.</p>
+
+    <div class="menu-snapshot">
+      <div class="ms-course">Starter — pick one</div>
+      <div class="ms-item">Pappardelle <div class="ms-desc">White pork ragù, knife-cut, Grana shavings</div></div>
+      <div class="ms-item" style="margin-top:0.6rem;">Ricotta &amp; spinach ravioli <span class="v">v</span><div class="ms-desc">Butter, sage, Grana shavings</div></div>
+      <div class="ms-course">Main — pick one</div>
+      <div class="ms-item">Tagliata di bovino <div class="ms-desc">Rosemary, local porcini mushrooms, dressed mixed leaves</div></div>
+      <div class="ms-item" style="margin-top:0.6rem;">Green bean flan <span class="v">v</span><div class="ms-desc">Grana fonduta, crispy bread</div></div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your first name</label>
+          <input type="text" placeholder="First name" />
+        </div>
+        <div class="form-group">
+          <label>Your surname</label>
+          <input type="text" placeholder="Last name" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div id="dinnerGuestList"></div>
+      <button type="button" class="btn-add-guest" onclick="addDinnerGuest()">+ Add another person</button>
+    </div>
+
+    <div class="form-card" style="margin-top:0;">
+      <div class="form-group full">
+        <label>Anything else we should know?</label>
+        <textarea placeholder="Notes, last-minute allergies, anything…"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="return false;">Send my picks</button>
+
+    <script>
+      let dinnerGuestCount = 0;
+      function addDinnerGuest() {
+        dinnerGuestCount++;
+        const id = dinnerGuestCount;
+        const isFirst = id === 1;
+        const label = isFirst ? 'You' : 'Guest ' + id;
+        const removeBtn = isFirst ? '' : '<button type="button" class="btn-remove-guest" onclick="removeDinnerGuest(' + id + ')">Remove</button>';
+        const div = document.createElement('div');
+        div.className = 'guest-card';
+        div.id = 'dg-' + id;
+        div.innerHTML = '<div class="guest-card-header"><span class="guest-card-title">' + label + '</span>' + removeBtn + '</div>'
+          + '<div class="guest-fields">'
+          + '<div class="form-group"><label>Name</label><input type="text" placeholder="Their name" /></div>'
+          + '<div class="form-group"><label>Adult or child?</label><div class="type-toggle"><div class="type-option selected" onclick="selectDinnerType(this)"><span>Adult</span></div><div class="type-option" onclick="selectDinnerType(this)"><span>Child</span></div></div></div>'
+          + '<div class="form-group"><label>Starter</label><div class="course-pick">'
+          + '<div class="course-option" onclick="pickCourse(this)"><div class="co-radio"></div><div class="co-text">Pappardelle</div></div>'
+          + '<div class="course-option" onclick="pickCourse(this)"><div class="co-radio"></div><div class="co-text">Ricotta &amp; spinach ravioli<span class="v-mini">v</span></div></div>'
+          + '</div></div>'
+          + '<div class="form-group"><label>Main</label><div class="course-pick">'
+          + '<div class="course-option" onclick="pickCourse(this)"><div class="co-radio"></div><div class="co-text">Tagliata di bovino</div></div>'
+          + '<div class="course-option" onclick="pickCourse(this)"><div class="co-radio"></div><div class="co-text">Green bean flan<span class="v-mini">v</span></div></div>'
+          + '</div></div>'
+          + '</div>';
+        document.getElementById('dinnerGuestList').appendChild(div);
+      }
+      function removeDinnerGuest(id) {
+        const el = document.getElementById('dg-' + id);
+        if (el) el.remove();
+      }
+      function selectDinnerType(el) {
+        el.closest('.type-toggle').querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+      }
+      function pickCourse(el) {
+        const group = el.parentElement;
+        group.querySelectorAll('.course-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+      }
+      addDinnerGuest();
+    </script>
+  </div>
+</section>
+
+<section class="thanks">
+  <div class="container">
+    <p class="section-label">Thank you</p>
+    <h2 class="section-title">Thank you for being part of our celebration 🤍</h2>
+    <p class="intro-p">There are a hundred places you could spend this weekend, and you chose to be with us. We can't tell you how much that means.</p>
+    <p class="intro-p">We are <strong>so excited</strong> for this — for the long lunches, the swims, the late nights, the quiet mornings, all of it. Bring your good humour, your favourite swimsuit, and a little patience for the inevitable chaos. We promise the rest will be magic.</p>
+    <p class="motto">See you in a few.<br>— Sonja &amp; Giacomo</p>
+  </div>
+</section>
+
+<footer>
+  With all our love, <span>Sonja &amp; Giacomo</span> &nbsp;·&nbsp; Corte Benedetto, Tuscany &nbsp;·&nbsp; 29 May – 2 June 2026
+</footer>
+
+</body>
+</html>

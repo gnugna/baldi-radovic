@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonja &amp; Giacomo · Wedding Dinner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --birch-lt:#f5f0e8; --birch:#e8dfd0; --birch-dk:#d4c8b4;
+    --sage:#8fa68c; --sage-lt:#b8cbb5; --sage-dk:#6b8568;
+    --fern:#4d6b52; --fern-dk:#3a5240;
+    --moss:#2c3d2e; --moss-dk:#1e2b1f;
+    --azure:#CDDFE9; --pale-blue:#AEBED5; --grey-blue:#859BBA; --dark-blue:#404D77;
+    --ink:#222d23; --mid:#5a6b58;
+    --line:rgba(143,166,140,0.28); --line-blue:rgba(133,155,186,0.25);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--birch-lt); color: var(--ink);
+    font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+
+  /* Language picker overlay */
+  .lang-picker {
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--moss);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1.5rem; text-align: center;
+    transition: opacity 0.4s ease;
+  }
+  body[data-lang] .lang-picker { opacity: 0; pointer-events: none; }
+  .lp-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 1.4rem;
+  }
+  .lp-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .lp-title em { font-style: italic; color: var(--sage-lt); }
+  .lp-sub {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.05rem; color: var(--sage-lt); margin-bottom: 2.6rem;
+  }
+  .lp-buttons {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    max-width: 480px;
+  }
+  .lp-btn {
+    background: transparent; border: 1px solid var(--sage);
+    color: var(--birch-lt); padding: 1rem 2.2rem; cursor: pointer;
+    font-family: 'Jost', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    border-radius: 2px; transition: all 0.2s; font-weight: 400;
+  }
+  .lp-btn:hover { background: var(--sage); color: var(--moss); }
+  .lp-btn strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; letter-spacing: 0; font-weight: 400; margin-bottom: 0.2rem; text-transform: none; }
+
+  /* Mini language switch (top corner) */
+  .lang-switch {
+    position: fixed; top: 1rem; right: 1rem; z-index: 100;
+    display: none; background: rgba(44,61,46,0.85);
+    backdrop-filter: blur(6px); border-radius: 50px;
+    padding: 0.35rem;
+  }
+  body[data-lang] .lang-switch { display: flex; }
+  .lang-switch button {
+    background: transparent; border: none; color: rgba(232,223,208,0.55);
+    font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 0.4rem 0.8rem; cursor: pointer;
+    border-radius: 50px; transition: all 0.15s;
+  }
+  .lang-switch button:hover { color: var(--birch-lt); }
+  .lang-switch button.active {
+    background: var(--sage); color: var(--moss); font-weight: 500;
+  }
+
+  /* Language blocks */
+  .lang-block { display: none; }
+  body[data-lang="en"] .lang-en { display: block; }
+  body[data-lang="it"] .lang-it { display: block; }
+  body[data-lang="sr"] .lang-sr { display: block; }
+  .lang-block.inline { display: none; }
+  body[data-lang="en"] .lang-en.inline { display: inline; }
+  body[data-lang="it"] .lang-it.inline { display: inline; }
+  body[data-lang="sr"] .lang-sr.inline { display: inline; }
+
+  /* Hero */
+  .page-hero {
+    background: var(--moss); color: var(--birch-lt);
+    text-align: center; padding: 3.6rem 1.5rem 3rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.66rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--sage-lt); margin-bottom: 1.1rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 3.6rem); line-height: 1.1;
+    color: var(--birch-lt); letter-spacing: -0.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--sage-lt); }
+  .hero-meta {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.1rem; color: var(--sage-lt); margin-top: 0.9rem;
+  }
+  .hero-line {
+    width: 1px; height: 2.6rem;
+    background: linear-gradient(to bottom, transparent, var(--sage), transparent);
+    margin: 1.6rem auto 0;
+  }
+
+  section { padding: 4rem 1.5rem; }
+  .container { max-width: 820px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--fern); margin-bottom: 0.9rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 300;
+    line-height: 1.15; margin-bottom: 0.6rem; color: var(--ink);
+  }
+  .section-intro {
+    font-size: 0.95rem; color: var(--mid); margin-bottom: 2rem;
+    max-width: 620px; font-style: italic;
+  }
+
+  /* Drinks */
+  .drinks { background: var(--birch); }
+  .sub-label {
+    font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--fern); margin: 1.6rem 0 0.6rem;
+    padding-top: 1.1rem; border-top: 1px solid var(--line);
+  }
+  .sub-label:first-of-type { margin-top: 0.5rem; padding-top: 0; border-top: none; }
+  .drink {
+    padding: 0.7rem 0; border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.6rem 1rem;
+    align-items: baseline;
+  }
+  .drink:last-of-type { border-bottom: none; }
+  .drink-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+    color: var(--ink); font-weight: 400; line-height: 1.25;
+  }
+  .drink-desc {
+    grid-column: 1 / -1;
+    font-size: 0.85rem; color: var(--mid); line-height: 1.5;
+    margin-top: -0.1rem;
+  }
+
+  /* Food */
+  .food { background: var(--birch-lt); }
+  .course-label {
+    font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--fern); margin: 1.8rem 0 0.9rem;
+    padding-top: 1.2rem; border-top: 1px solid var(--line);
+  }
+  .course-label:first-of-type { margin-top: 0.4rem; padding-top: 0; border-top: none; }
+  .dish { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+  .dish:last-of-type { border-bottom: none; }
+  .dish-en {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: 1.32rem; color: var(--ink); line-height: 1.25;
+    margin-bottom: 0.3rem;
+  }
+  .dish-desc { font-size: 0.92rem; color: var(--mid); margin-bottom: 0.2rem; }
+  .veg-tag {
+    display: inline-block; font-size: 0.55rem; letter-spacing: 0.18em;
+    text-transform: uppercase; padding: 0.22em 0.65em; border-radius: 20px;
+    margin-left: 0.5rem; vertical-align: middle; position: relative; top: -2px;
+    background: rgba(143,166,140,0.2); border: 1px solid var(--sage);
+    color: var(--fern-dk); font-weight: 500;
+  }
+
+  /* Poll */
+  .poll { background: var(--birch); }
+  .poll-intro-veg { display: inline-block; font-size: 0.7rem; color: var(--fern-dk); margin-left: 0.3rem; }
+  .poll-card {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.4rem 1.4rem 1.2rem;
+    margin-top: 1.2rem;
+  }
+  .poll .form-group { margin-bottom: 1.1rem; }
+  .poll .form-group:last-child { margin-bottom: 0; }
+  .poll label {
+    display: block; font-size: 0.62rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--fern); margin-bottom: 0.55rem;
+    font-weight: 500;
+  }
+  .poll input[type="text"], .poll input[type="email"], .poll textarea {
+    width: 100%; background: #fff; border: 1px solid var(--line);
+    border-radius: 3px; padding: 0.7rem 0.85rem;
+    font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--ink);
+    font-weight: 300; transition: border-color 0.15s;
+  }
+  .poll input:focus, .poll textarea:focus {
+    outline: none; border-color: var(--sage-dk);
+  }
+  .poll textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+  .guest-card {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 4px; padding: 1.1rem 1.1rem 0.9rem;
+    margin-bottom: 0.9rem; position: relative;
+  }
+  .guest-card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+  .guest-card-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
+    color: var(--fern-dk); font-weight: 400;
+  }
+  .btn-remove-guest {
+    background: transparent; border: 1px solid rgba(181,82,82,0.4);
+    color: #b55252; font-family: 'Jost', sans-serif;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.32rem 0.7rem; border-radius: 3px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-remove-guest:hover { background: #b55252; color: #fff; }
+  .choice-group { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+  @media (max-width: 480px) { .choice-group { grid-template-columns: 1fr; } }
+  .choice-opt {
+    background: var(--birch-lt); border: 1px solid var(--line);
+    border-radius: 3px; padding: 0.75rem 0.9rem; cursor: pointer;
+    transition: all 0.15s; user-select: none;
+  }
+  .choice-opt:hover { border-color: var(--sage); background: rgba(143,166,140,0.08); }
+  .choice-opt.selected {
+    background: var(--sage); border-color: var(--sage-dk);
+    color: var(--moss-dk);
+  }
+  .choice-opt.selected .choice-desc { color: rgba(30,43,31,0.7); }
+  .choice-opt.selected .veg-tag { background: rgba(255,255,255,0.4); border-color: var(--fern-dk); color: var(--fern-dk); }
+  .choice-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+    font-weight: 400; color: var(--ink); line-height: 1.2;
+    margin-bottom: 0.2rem;
+  }
+  .choice-desc { font-size: 0.78rem; color: var(--mid); line-height: 1.45; }
+  .btn-add-guest {
+    background: transparent; border: 1px dashed var(--sage-dk);
+    color: var(--fern-dk); font-family: 'Jost', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 0.85rem 1.4rem; border-radius: 3px; cursor: pointer;
+    width: 100%; margin-top: 0.4rem; transition: all 0.15s;
+  }
+  .btn-add-guest:hover { background: var(--sage); color: var(--moss-dk); border-style: solid; }
+  .btn-submit {
+    display: block; margin: 1.8rem auto 0;
+    background: var(--fern); color: var(--birch-lt); border: none;
+    font-family: 'Jost', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.28em; text-transform: uppercase; font-weight: 500;
+    padding: 1rem 2.4rem; border-radius: 3px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-submit:hover { background: var(--fern-dk); }
+  .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  .poll-status {
+    text-align: center; margin-top: 1rem; min-height: 1.2rem;
+    font-size: 0.88rem; line-height: 1.5;
+  }
+  .poll-status.error { color: #b55252; }
+  .poll-status.ok { color: var(--fern-dk); }
+  .veg-tag-inline {
+    display: inline-block; font-size: 0.5rem; letter-spacing: 0.16em;
+    text-transform: uppercase; padding: 0.18em 0.55em; border-radius: 20px;
+    background: rgba(143,166,140,0.2); border: 1px solid var(--sage);
+    color: var(--fern-dk); font-weight: 500; vertical-align: middle;
+    margin-left: 0.35rem; position: relative; top: -1px;
+  }
+
+  /* Notes */
+  .notes { background: var(--moss); color: rgba(232,223,208,0.7); }
+  .notes .section-title { color: var(--birch-lt); }
+  .notes .section-label { color: var(--sage-lt); }
+  .note-item {
+    border-left: 2px solid var(--sage); padding: 0.4rem 0 0.4rem 1rem;
+    margin: 0.9rem 0; font-size: 0.94rem; color: rgba(232,223,208,0.72); line-height: 1.6;
+  }
+  .note-item strong { color: var(--birch-lt); font-weight: 500; }
+
+  footer {
+    background: var(--moss-dk); color: rgba(232,223,208,0.3);
+    text-align: center; padding: 2.5rem 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.14em;
+  }
+  footer span { color: var(--sage); }
+
+  @media (max-width: 480px) { section { padding: 3rem 1.1rem; } }
+
+  /* ===== Shared site navigation ===== */
+  .site-nav { position: sticky; top: 0; z-index: 90; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); font-family: 'Jost', sans-serif; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; min-height: 3.4rem; }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--birch-lt); text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+  .nav-brand:hover { color: var(--sage-lt); text-decoration: none; }
+  .nav-toggle { display: none; background: none; border: none; color: var(--birch-lt); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.3rem 0.4rem; }
+  .nav-menu { display: flex; align-items: center; gap: 0.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu > li { position: relative; }
+  .nav-menu > li > a, .nav-parent { display: block; padding: 0.7rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,223,208,0.78); text-decoration: none; cursor: pointer; white-space: nowrap; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .nav-menu > li > a:hover, .nav-parent:hover { color: var(--birch-lt); text-decoration: none; }
+  .nav-parent .caret { font-size: 0.85em; opacity: 0.6; margin-left: 0.2em; }
+  .nav-sub { position: absolute; top: 100%; left: 0; min-width: 210px; background: var(--moss-dk); border: 1px solid rgba(143,166,140,0.25); border-top: 2px solid var(--sage); border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0.3rem 0; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 95; }
+  .has-sub:hover .nav-sub, .has-sub.open .nav-sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-sub li a { display: block; padding: 0.6rem 1.1rem; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(232,223,208,0.72); text-decoration: none; white-space: nowrap; }
+  .nav-sub li a:hover { background: rgba(143,166,140,0.16); color: var(--birch-lt); text-decoration: none; }
+  @media (max-width: 880px) {
+    .nav-toggle { display: block; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); padding: 0.4rem 0; max-height: 80vh; overflow-y: auto; }
+    .nav-menu.open { display: flex; }
+    .nav-menu > li > a, .nav-parent { padding: 0.85rem 1.2rem; font-size: 0.72rem; }
+    .nav-sub { position: static; opacity: 1; visibility: visible; transform: none; border: none; border-top: none; background: rgba(0,0,0,0.2); padding: 0; min-width: 0; }
+    .nav-sub li a { padding: 0.7rem 1.2rem 0.7rem 2.2rem; }
+    .nav-parent .caret { float: right; }
+  }
+  /* keep language pill clear of the top nav on menu pages */
+  .lang-switch { top: auto !important; bottom: 1rem !important; }
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Sonja &amp; Giacomo</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact_location.html">Contact &amp; Location</a></li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Accommodation<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="villa_house_rules.html">Sleeping at the Villa</a></li>
+          <li><a href="hotel_guests_info.html">Sleeping at the B&amp;B</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Menu<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="saturday_pool_party_menu.html">Saturday Pool Gathering Menu</a></li>
+          <li><a href="saturday_dinner_menu.html">Saturday Dinner Menu</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Recipes<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="recipe_aperol_spritz.html">Aperol Spritz</a></li>
+          <li><a href="recipe_gin_tonic.html">Gin Tonic</a></li>
+          <li><a href="recipe_negroni.html">Negroni</a></li>
+          <li><a href="recipe_virgin_mojito.html">Virgin Mojito</a></li>
+          <li><a href="recipe_elderflower_cucumber.html">Elderflower &amp; Cucumber</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- ===== Landing language picker ===== -->
+<div class="lang-picker" id="langPicker">
+  <div class="lp-eyebrow">Sonja &amp; Giacomo · Wedding Dinner</div>
+  <h1 class="lp-title">Choose your <em>language</em></h1>
+  <p class="lp-sub">Scegli la tua lingua &nbsp;·&nbsp; Izaberite jezik</p>
+  <div class="lp-buttons">
+    <button class="lp-btn" onclick="setLang('en')"><strong>English</strong>EN</button>
+    <button class="lp-btn" onclick="setLang('it')"><strong>Italiano</strong>IT</button>
+    <button class="lp-btn" onclick="setLang('sr')"><strong>Srpski</strong>SR</button>
+  </div>
+</div>
+
+<!-- ===== Persistent mini language switch ===== -->
+<div class="lang-switch" id="langSwitch">
+  <button data-lang="en" onclick="setLang('en')">EN</button>
+  <button data-lang="it" onclick="setLang('it')">IT</button>
+  <button data-lang="sr" onclick="setLang('sr')">SR</button>
+</div>
+
+<!-- ===== Hero ===== -->
+<header class="page-hero">
+  <div class="hero-eyebrow">
+    <span class="lang-en lang-block inline">Saturday · 30 May · from 7 pm</span>
+    <span class="lang-it lang-block inline">Sabato · 30 maggio · dalle 19</span>
+    <span class="lang-sr lang-block inline">Subota · 30. maj · od 19h</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="lang-en lang-block inline">Wedding<br><em>Dinner</em></span>
+    <span class="lang-it lang-block inline">Cena<br><em>di Nozze</em></span>
+    <span class="lang-sr lang-block inline">Svadbena<br><em>večera</em></span>
+  </h1>
+  <p class="hero-meta">
+    <span class="lang-en lang-block inline">Our Tuscan wedding dinner</span>
+    <span class="lang-it lang-block inline">La nostra cena di nozze in Toscana</span>
+    <span class="lang-sr lang-block inline">Naša toskanska svadbena večera</span>
+  </p>
+  <div class="hero-line"></div>
+</header>
+
+<!-- =================== DRINKS =================== -->
+<section class="drinks">
+  <div class="container">
+
+    <!-- English -->
+    <div class="lang-en lang-block">
+      <p class="section-label">From the bar</p>
+      <h2 class="section-title">Drinks</h2>
+      <p class="section-intro">Open bar all evening — help yourself and enjoy the night.</p>
+
+      <div class="sub-label">Bubbles</div>
+      <div class="drink"><div class="drink-name">Prosecco</div><div class="drink-desc">Chilled, by the glass</div></div>
+
+      <div class="sub-label">Wine</div>
+      <div class="drink"><div class="drink-name">Red wine</div><div class="drink-desc">Sangiovese toscano</div></div>
+      <div class="drink"><div class="drink-name">White wine</div><div class="drink-desc">Still &amp; dry</div></div>
+
+      <div class="sub-label">Cocktails &amp; Spritz</div>
+      <div class="drink"><div class="drink-name">Aperol Spritz</div><div class="drink-desc">Aperol, prosecco, soda, orange</div></div>
+      <div class="drink"><div class="drink-name">Gin Tonic</div><div class="drink-desc">Gin, tonic, cucumber or rosemary</div></div>
+      <div class="drink"><div class="drink-name">Negroni</div><div class="drink-desc">Gin, Campari, sweet vermouth</div></div>
+
+      <div class="sub-label">Spirits</div>
+      <div class="drink"><div class="drink-name">Vodka</div><div class="drink-desc">Neat or on ice</div></div>
+      <div class="drink"><div class="drink-name">Whisky</div><div class="drink-desc">Neat or on ice</div></div>
+      <div class="drink"><div class="drink-name">Rakija</div><div class="drink-desc">Served neat</div></div>
+
+      <div class="sub-label">Mocktails</div>
+      <div class="drink"><div class="drink-name">Elderflower &amp; cucumber</div><div class="drink-desc">Sparkling water, elderflower cordial, cucumber, mint, lime</div></div>
+      <div class="drink"><div class="drink-name">Virgin mojito</div><div class="drink-desc">Sparkling water, fresh lime, mint, sugar syrup</div></div>
+
+      <div class="sub-label">Non-alcoholic</div>
+      <div class="drink"><div class="drink-name">Still &amp; sparkling water</div><div class="drink-desc">Always on the table</div></div>
+      <div class="drink"><div class="drink-name">Coca-Cola &amp; Coca-Cola Zero</div><div class="drink-desc">Chilled, over ice</div></div>
+
+      <div class="sub-label">Coffee</div>
+      <div class="drink"><div class="drink-name">Espresso</div><div class="drink-desc">Short &amp; strong</div></div>
+      <div class="drink"><div class="drink-name">Espresso doppio</div><div class="drink-desc">Double shot</div></div>
+      <div class="drink"><div class="drink-name">Macchiato</div><div class="drink-desc">Espresso with a touch of milk</div></div>
+    </div>
+
+    <!-- Italian -->
+    <div class="lang-it lang-block">
+      <p class="section-label">Dal bar</p>
+      <h2 class="section-title">Bevande</h2>
+      <p class="section-intro">Open bar per tutta la serata — servitevi e godetevi la notte.</p>
+
+      <div class="sub-label">Bollicine</div>
+      <div class="drink"><div class="drink-name">Prosecco</div><div class="drink-desc">Freddo, servito al bicchiere</div></div>
+
+      <div class="sub-label">Vino</div>
+      <div class="drink"><div class="drink-name">Vino rosso</div><div class="drink-desc">Sangiovese toscano</div></div>
+      <div class="drink"><div class="drink-name">Vino bianco</div><div class="drink-desc">Fermo, asciutto</div></div>
+
+      <div class="sub-label">Cocktail &amp; Spritz</div>
+      <div class="drink"><div class="drink-name">Aperol Spritz</div><div class="drink-desc">Aperol, prosecco, soda, arancia</div></div>
+      <div class="drink"><div class="drink-name">Gin Tonic</div><div class="drink-desc">Gin, tonica, cetriolo o rosmarino</div></div>
+      <div class="drink"><div class="drink-name">Negroni</div><div class="drink-desc">Gin, Campari, vermouth rosso</div></div>
+
+      <div class="sub-label">Distillati</div>
+      <div class="drink"><div class="drink-name">Vodka</div><div class="drink-desc">Liscia o con ghiaccio</div></div>
+      <div class="drink"><div class="drink-name">Whisky</div><div class="drink-desc">Liscio o con ghiaccio</div></div>
+      <div class="drink"><div class="drink-name">Rakija</div><div class="drink-desc">Liscia</div></div>
+
+      <div class="sub-label">Senza alcol</div>
+      <div class="drink"><div class="drink-name">Fiori di sambuco &amp; cetriolo</div><div class="drink-desc">Acqua frizzante, sciroppo di sambuco, cetriolo, menta, lime</div></div>
+      <div class="drink"><div class="drink-name">Virgin mojito</div><div class="drink-desc">Acqua frizzante, lime fresco, menta, sciroppo di zucchero</div></div>
+
+      <div class="sub-label">Analcolici</div>
+      <div class="drink"><div class="drink-name">Acqua naturale e frizzante</div><div class="drink-desc">Sempre in tavola</div></div>
+      <div class="drink"><div class="drink-name">Coca-Cola &amp; Coca-Cola Zero</div><div class="drink-desc">Fredda, con ghiaccio</div></div>
+
+      <div class="sub-label">Caffè</div>
+      <div class="drink"><div class="drink-name">Espresso</div><div class="drink-desc">Corto e intenso</div></div>
+      <div class="drink"><div class="drink-name">Espresso doppio</div><div class="drink-desc">Doppio</div></div>
+      <div class="drink"><div class="drink-name">Macchiato</div><div class="drink-desc">Espresso con un tocco di latte</div></div>
+    </div>
+
+    <!-- Serbian -->
+    <div class="lang-sr lang-block">
+      <p class="section-label">Sa bara</p>
+      <h2 class="section-title">Pića</h2>
+      <p class="section-intro">Otvoreni bar cele večeri — poslužite se i uživajte u noći.</p>
+
+      <div class="sub-label">Penušavo</div>
+      <div class="drink"><div class="drink-name">Prosecco</div><div class="drink-desc">Rashlađen, služi se u čaši</div></div>
+
+      <div class="sub-label">Vino</div>
+      <div class="drink"><div class="drink-name">Crno vino</div><div class="drink-desc">Sangiovese toscano</div></div>
+      <div class="drink"><div class="drink-name">Belo vino</div><div class="drink-desc">Suvo</div></div>
+
+      <div class="sub-label">Kokteli &amp; Spritz</div>
+      <div class="drink"><div class="drink-name">Aperol Spritz</div><div class="drink-desc">Aperol, proseko, soda, narandža</div></div>
+      <div class="drink"><div class="drink-name">Gin Tonik</div><div class="drink-desc">Džin, tonik, krastavac ili ruzmarin</div></div>
+      <div class="drink"><div class="drink-name">Negroni</div><div class="drink-desc">Džin, Campari, slatki vermut</div></div>
+
+      <div class="sub-label">Žestoka pića</div>
+      <div class="drink"><div class="drink-name">Votka</div><div class="drink-desc">Čista ili sa ledom</div></div>
+      <div class="drink"><div class="drink-name">Viski</div><div class="drink-desc">Čist ili sa ledom</div></div>
+      <div class="drink"><div class="drink-name">Rakija</div><div class="drink-desc">Čista</div></div>
+
+      <div class="sub-label">Bezalkoholni kokteli</div>
+      <div class="drink"><div class="drink-name">Zova &amp; krastavac</div><div class="drink-desc">Gazirana voda, sirup od zove, krastavac, nana, limeta</div></div>
+      <div class="drink"><div class="drink-name">Virgin mojito</div><div class="drink-desc">Gazirana voda, sveža limeta, nana, šećerni sirup</div></div>
+
+      <div class="sub-label">Bezalkoholno</div>
+      <div class="drink"><div class="drink-name">Negazirana i gazirana voda</div><div class="drink-desc">Uvek na stolu</div></div>
+      <div class="drink"><div class="drink-name">Coca-Cola &amp; Coca-Cola Zero</div><div class="drink-desc">Hladna, sa ledom</div></div>
+
+      <div class="sub-label">Kafa</div>
+      <div class="drink"><div class="drink-name">Espresso</div><div class="drink-desc">Kratka i jaka</div></div>
+      <div class="drink"><div class="drink-name">Espresso doppio</div><div class="drink-desc">Dupla</div></div>
+      <div class="drink"><div class="drink-name">Macchiato</div><div class="drink-desc">Espresso sa malo mleka</div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =================== FOOD =================== -->
+<section class="food">
+  <div class="container">
+
+    <!-- English -->
+    <div class="lang-en lang-block">
+      <p class="section-label">From the kitchen</p>
+      <h2 class="section-title">Food</h2>
+      <p class="section-intro">Two starters and two mains — pick whichever calls you. (<span class="veg-tag" style="position:static;top:0;margin:0;">v</span> = vegetarian)</p>
+
+      <div class="course-label">Starter</div>
+      <div class="dish">
+        <div class="dish-en">Pappardelle</div>
+        <div class="dish-desc">White pork ragù, knife-cut, Grana shavings</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Ricotta &amp; spinach ravioli <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Butter, sage, Grana shavings</div>
+      </div>
+
+      <div class="course-label">Main</div>
+      <div class="dish">
+        <div class="dish-en">Tagliata di bovino</div>
+        <div class="dish-desc">Rosemary, local porcini mushrooms, dressed mixed leaves</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Green bean flan <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Grana fonduta, crispy bread</div>
+      </div>
+    </div>
+
+    <!-- Italian -->
+    <div class="lang-it lang-block">
+      <p class="section-label">Dalla cucina</p>
+      <h2 class="section-title">Cibo</h2>
+      <p class="section-intro">Due primi e due secondi — scegli quello che preferisci. (<span class="veg-tag" style="position:static;top:0;margin:0;">v</span> = vegetariano)</p>
+
+      <div class="course-label">Primo</div>
+      <div class="dish">
+        <div class="dish-en">Pappardelle</div>
+        <div class="dish-desc">Ragù bianco di maiale, tagliate al coltello, scaglie di Grana</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Ravioli ricotta e spinaci <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Burro, salvia, scaglie di Grana</div>
+      </div>
+
+      <div class="course-label">Secondo</div>
+      <div class="dish">
+        <div class="dish-en">Tagliata di bovino</div>
+        <div class="dish-desc">Rosmarino, porcini locali, misticanza condita</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Flan di fagiolini <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Fonduta di Grana, pane croccante</div>
+      </div>
+    </div>
+
+    <!-- Serbian -->
+    <div class="lang-sr lang-block">
+      <p class="section-label">Iz kuhinje</p>
+      <h2 class="section-title">Hrana</h2>
+      <p class="section-intro">Dva predjela i dva glavna jela — izaberite ono koje vas privlači. (<span class="veg-tag" style="position:static;top:0;margin:0;">v</span> = vegetarijansko)</p>
+
+      <div class="course-label">Predjelo</div>
+      <div class="dish">
+        <div class="dish-en">Pappardelle</div>
+        <div class="dish-desc">Beli ragu od svinjetine, sečene nožem, listići Grane</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Ravioli s rikotom i spanaćem <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Puter, žalfija, listići Grane</div>
+      </div>
+
+      <div class="course-label">Glavno jelo</div>
+      <div class="dish">
+        <div class="dish-en">Tagliata od govedine</div>
+        <div class="dish-desc">Ruzmarin, lokalni vrganji, začinjena misticanza</div>
+      </div>
+      <div class="dish">
+        <div class="dish-en">Flan od boranije <span class="veg-tag">v</span></div>
+        <div class="dish-desc">Fonduta od Grane, hrskavi hleb</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =================== POLL =================== -->
+<section class="poll" id="dinner-poll">
+  <div class="container">
+
+    <!-- English headers -->
+    <div class="lang-en lang-block">
+      <p class="section-label">A small favour</p>
+      <h2 class="section-title">Tell us what you'll have</h2>
+      <p class="section-intro">So we can tell the chef how many of each to prepare. Add one entry per person at your table — name + your starter and main. (<span class="veg-tag-inline">v</span> = vegetarian)</p>
+    </div>
+
+    <!-- Italian headers -->
+    <div class="lang-it lang-block">
+      <p class="section-label">Un piccolo favore</p>
+      <h2 class="section-title">Dicci cosa prenderai</h2>
+      <p class="section-intro">Per dire allo chef quante porzioni preparare. Aggiungi una persona per ogni commensale al tuo tavolo — nome + primo e secondo. (<span class="veg-tag-inline">v</span> = vegetariano)</p>
+    </div>
+
+    <!-- Serbian headers -->
+    <div class="lang-sr lang-block">
+      <p class="section-label">Mala usluga</p>
+      <h2 class="section-title">Recite nam šta ćete jesti</h2>
+      <p class="section-intro">Da kuvar zna koliko porcija da pripremi. Dodajte jednu osobu po gostu za vašim stolom — ime + predjelo i glavno jelo. (<span class="veg-tag-inline">v</span> = vegetarijansko)</p>
+    </div>
+
+    <div class="poll-card">
+      <div class="form-group">
+        <label>
+          <span class="lang-en lang-block inline">Your email</span>
+          <span class="lang-it lang-block inline">La tua email</span>
+          <span class="lang-sr lang-block inline">Vaš email</span>
+        </label>
+        <input id="dinnerEmail" type="email" autocomplete="email" />
+      </div>
+
+      <div id="pollGuests"></div>
+
+      <button type="button" class="btn-add-guest" onclick="addPollGuest()">
+        <span class="lang-en lang-block inline">+ Add another person</span>
+        <span class="lang-it lang-block inline">+ Aggiungi un'altra persona</span>
+        <span class="lang-sr lang-block inline">+ Dodaj još jednu osobu</span>
+      </button>
+    </div>
+
+    <div class="poll-card">
+      <div class="form-group">
+        <label>
+          <span class="lang-en lang-block inline">Anything else?</span>
+          <span class="lang-it lang-block inline">Altro da dirci?</span>
+          <span class="lang-sr lang-block inline">Još nešto?</span>
+        </label>
+        <textarea id="dinnerNotes"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitDinnerPoll()">
+      <span class="lang-en lang-block inline">Send my choice</span>
+      <span class="lang-it lang-block inline">Invia la mia scelta</span>
+      <span class="lang-sr lang-block inline">Pošalji izbor</span>
+    </button>
+    <div id="pollStatus" class="poll-status"></div>
+
+  </div>
+</section>
+
+<!-- =================== NOTES =================== -->
+<section class="notes">
+  <div class="container">
+
+    <!-- English -->
+    <div class="lang-en lang-block">
+      <p class="section-label">A few small things</p>
+      <h2 class="section-title">Bar notes</h2>
+      <div class="note-item"><strong>Open bar all night —</strong> help yourselves &amp; enjoy the evening.</div>
+      <div class="note-item"><strong>Water</strong> is always waiting for you at the table.</div>
+      <div class="note-item"><strong>Cocktail hour alert —</strong> not everyone shakes with confidence, and that's fine. Some of our guests are the real thing. They'll be at the bar for a while — don't miss your window.</div>
+      <div class="note-item"><strong>Cappuccino</strong> is available — only if you can slip past our Italian friends unnoticed.</div>
+    </div>
+
+    <!-- Italian -->
+    <div class="lang-it lang-block">
+      <p class="section-label">Qualche piccola nota</p>
+      <h2 class="section-title">Note del bar</h2>
+      <div class="note-item"><strong>Open bar tutta la notte —</strong> servitevi e godetevi la serata.</div>
+      <div class="note-item"><strong>L'acqua</strong> è sempre sul tavolo.</div>
+      <div class="note-item"><strong>Cocktail hour —</strong> non tutti sanno maneggiare uno shaker, e va benissimo. Alcuni ospiti sì, e bene. Saranno al bar per un po' — non fatevi scappare l'occasione.</div>
+    </div>
+
+    <!-- Serbian -->
+    <div class="lang-sr lang-block">
+      <p class="section-label">Nekoliko sitnica</p>
+      <h2 class="section-title">Napomene za bar</h2>
+      <div class="note-item"><strong>Otvoreni bar cele noći —</strong> poslužite se i uživajte u veče.</div>
+      <div class="note-item"><strong>Voda</strong> vas uvek čeka na stolu.</div>
+      <div class="note-item"><strong>Cocktail hour —</strong> nije svako rođen sa šejkerom u ruci, i to je sasvim okej. Neki naši gosti jesu. Biće za barom neko vreme — nemojte propustiti svoju šansu.</div>
+      <div class="note-item"><strong>Kapućino</strong> dostupan — samo ako uspete da vas italijanski prijatelji ne primete.</div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Sonja &amp; Giacomo &nbsp;·&nbsp; <span>Corte Benedetto, Tuscany</span> &nbsp;·&nbsp; 30 May 2026
+</footer>
+
+<script>
+  // ── Dinner poll ──
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzosPOXexn2X5hb1pcSyP84I-jfsprBnpl5By-0ewHQ69VJ24B1yEYKhP3epmpimloz/exec';
+
+  var STARTERS = [
+    { value: 'Pappardelle',     en: { name: 'Pappardelle',                   desc: 'White pork ragù' } ,
+                                it: { name: 'Pappardelle',                   desc: 'Ragù bianco di maiale' },
+                                sr: { name: 'Pappardelle',                   desc: 'Beli ragu od svinjetine' },
+                                veg: false },
+    { value: 'Ravioli (v)',     en: { name: 'Ricotta &amp; spinach ravioli', desc: 'Butter &amp; sage' },
+                                it: { name: 'Ravioli ricotta e spinaci',     desc: 'Burro e salvia' },
+                                sr: { name: 'Ravioli s rikotom i spanaćem',  desc: 'Puter i žalfija' },
+                                veg: true }
+  ];
+  var MAINS = [
+    { value: 'Tagliata',        en: { name: 'Tagliata di bovino',            desc: 'Rosemary, local porcini' },
+                                it: { name: 'Tagliata di bovino',            desc: 'Rosmarino, porcini locali' },
+                                sr: { name: 'Tagliata od govedine',          desc: 'Ruzmarin, vrganji' },
+                                veg: false },
+    { value: 'Flan (v)',        en: { name: 'Green bean flan',               desc: 'Grana fonduta, crispy bread' },
+                                it: { name: 'Flan di fagiolini',             desc: 'Fonduta di Grana, pane croccante' },
+                                sr: { name: 'Flan od boranije',              desc: 'Fonduta od Grane, hrskavi hleb' },
+                                veg: true }
+  ];
+
+  var LABELS = {
+    name:    { en: 'Name',                 it: 'Nome',                  sr: 'Ime' },
+    starter: { en: 'Starter',              it: 'Primo',                 sr: 'Predjelo' },
+    main:    { en: 'Main',                 it: 'Secondo',               sr: 'Glavno jelo' },
+    you:     { en: 'You',                  it: 'Tu',                    sr: 'Vi' },
+    guest:   { en: 'Guest',                it: 'Ospite',                sr: 'Gost' },
+    remove:  { en: 'Remove',               it: 'Rimuovi',               sr: 'Ukloni' }
+  };
+
+  function trio(map) {
+    return '<span class="lang-en lang-block inline">' + map.en + '</span>'
+         + '<span class="lang-it lang-block inline">' + map.it + '</span>'
+         + '<span class="lang-sr lang-block inline">' + map.sr + '</span>';
+  }
+
+  function choiceOptHtml(opt, group, guestId) {
+    var veg = opt.veg ? ' <span class="veg-tag-inline">v</span>' : '';
+    function block(langCode) {
+      return '<div class="lang-' + langCode + ' lang-block">'
+        + '<div class="choice-name">' + opt[langCode].name + veg + '</div>'
+        + '<div class="choice-desc">' + opt[langCode].desc + '</div>'
+      + '</div>';
+    }
+    return '<div class="choice-opt" data-group="' + group + '" data-value="' + opt.value + '"'
+      + ' onclick="selectChoice(this)">'
+      + block('en') + block('it') + block('sr')
+      + '</div>';
+  }
+
+  var pollCount = 0;
+  function addPollGuest() {
+    pollCount++;
+    var id = pollCount;
+    var titleMap = id === 1
+      ? LABELS.you
+      : { en: LABELS.guest.en + ' ' + id, it: LABELS.guest.it + ' ' + id, sr: LABELS.guest.sr + ' ' + id };
+    var removeBtn = id === 1 ? '' :
+      '<button type="button" class="btn-remove-guest" onclick="removePollGuest(' + id + ')">'
+      + trio(LABELS.remove)
+      + '</button>';
+
+    var card = document.createElement('div');
+    card.className = 'guest-card';
+    card.id = 'pollGuest-' + id;
+    card.innerHTML =
+        '<div class="guest-card-head">'
+      +   '<span class="guest-card-title">' + trio(titleMap) + '</span>'
+      +   removeBtn
+      + '</div>'
+      + '<div class="form-group">'
+      +   '<label>' + trio(LABELS.name) + '</label>'
+      +   '<input type="text" class="g-name" />'
+      + '</div>'
+      + '<div class="form-group">'
+      +   '<label>' + trio(LABELS.starter) + '</label>'
+      +   '<div class="choice-group" data-field="starter">'
+      +     STARTERS.map(function(o) { return choiceOptHtml(o, 'starter', id); }).join('')
+      +   '</div>'
+      + '</div>'
+      + '<div class="form-group">'
+      +   '<label>' + trio(LABELS.main) + '</label>'
+      +   '<div class="choice-group" data-field="main">'
+      +     MAINS.map(function(o) { return choiceOptHtml(o, 'main', id); }).join('')
+      +   '</div>'
+      + '</div>';
+
+    document.getElementById('pollGuests').appendChild(card);
+  }
+
+  function removePollGuest(id) {
+    var el = document.getElementById('pollGuest-' + id);
+    if (el) el.remove();
+  }
+
+  function selectChoice(el) {
+    var group = el.parentElement;
+    group.querySelectorAll('.choice-opt').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+  }
+
+  function collectPollData() {
+    var email = (document.getElementById('dinnerEmail').value || '').trim();
+    var notes = (document.getElementById('dinnerNotes').value || '').trim();
+    var guests = [];
+    document.querySelectorAll('#pollGuests .guest-card').forEach(function(card) {
+      var name = (card.querySelector('.g-name').value || '').trim();
+      var parts = name.split(/\s+/);
+      var firstName = parts.shift() || '';
+      var lastName = parts.join(' ');
+      var starter = card.querySelector('.choice-group[data-field="starter"] .choice-opt.selected');
+      var main    = card.querySelector('.choice-group[data-field="main"] .choice-opt.selected');
+      guests.push({
+        firstName: firstName,
+        lastName:  lastName,
+        starter:   starter ? starter.getAttribute('data-value') : '',
+        main:      main    ? main.getAttribute('data-value')    : ''
+      });
+    });
+    return {
+      kind: 'dinner_choice',
+      timestamp: new Date().toISOString(),
+      email: email,
+      guests: guests,
+      notes: notes
+    };
+  }
+
+  function validatePoll(data) {
+    var lang = document.body.getAttribute('data-lang') || 'en';
+    var msgs = {
+      email:   { en: 'Please enter your email.',          it: 'Inserisci la tua email.',           sr: 'Unesite vaš email.' },
+      empty:   { en: 'Please add at least one person.',   it: 'Aggiungi almeno una persona.',      sr: 'Dodajte bar jednu osobu.' },
+      name:    { en: 'Please enter a name for everyone.', it: 'Inserisci un nome per ognuno.',     sr: 'Unesite ime za svakoga.' },
+      choices: { en: 'Please pick a starter and a main for everyone.',
+                 it: 'Scegli primo e secondo per ognuno.',
+                 sr: 'Izaberite predjelo i glavno jelo za svakoga.' }
+    };
+    var errs = [];
+    if (!data.email) errs.push(msgs.email[lang]);
+    if (data.guests.length === 0) errs.push(msgs.empty[lang]);
+    var missingName = data.guests.some(function(g) { return !g.firstName; });
+    var missingChoice = data.guests.some(function(g) { return !g.starter || !g.main; });
+    if (missingName) errs.push(msgs.name[lang]);
+    if (missingChoice) errs.push(msgs.choices[lang]);
+    return errs;
+  }
+
+  function submitDinnerPoll() {
+    var statusEl = document.getElementById('pollStatus');
+    var btn = document.querySelector('.poll .btn-submit');
+    var data = collectPollData();
+    var errs = validatePoll(data);
+    statusEl.classList.remove('ok', 'error');
+
+    if (errs.length) {
+      statusEl.classList.add('error');
+      statusEl.innerHTML = errs.join('<br>');
+      return;
+    }
+
+    var lang = document.body.getAttribute('data-lang') || 'en';
+    var sending = { en: 'Sending…', it: 'Invio in corso…', sr: 'Slanje…' };
+    var okMsg   = { en: 'Thank you — your choice is saved.',
+                    it: 'Grazie — la tua scelta è stata registrata.',
+                    sr: 'Hvala — vaš izbor je sačuvan.' };
+    var failMsg = { en: 'Something went wrong. Please try again or message us.',
+                    it: 'Qualcosa è andato storto. Riprova o scrivici.',
+                    sr: 'Nešto je pošlo po zlu. Pokušajte ponovo ili nas kontaktirajte.' };
+
+    btn.disabled = true;
+    statusEl.classList.add('ok');
+    statusEl.textContent = sending[lang];
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    }).then(function() {
+      statusEl.classList.remove('error');
+      statusEl.classList.add('ok');
+      statusEl.textContent = okMsg[lang];
+    }).catch(function() {
+      btn.disabled = false;
+      statusEl.classList.remove('ok');
+      statusEl.classList.add('error');
+      statusEl.textContent = failMsg[lang];
+    });
+  }
+
+  addPollGuest();
+
+  function setLang(lang) {
+    document.body.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('#langSwitch button').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    try { localStorage.setItem('menuLang', lang); } catch(e) {}
+  }
+  // Restore from localStorage if available
+  try {
+    const saved = localStorage.getItem('menuLang');
+    if (saved && ['en','it','sr'].includes(saved)) setLang(saved);
+  } catch(e) {}
+</script>
+
+</body>
+</html>

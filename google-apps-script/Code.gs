@@ -35,8 +35,18 @@ var HEADERS = [
   'Notes'
 ];
 
+var DINNER_SHEET_NAME = 'Sat Dinner Choices';
+var DINNER_HEADERS = [
+  'Timestamp',
+  'Email',
+  'First Name',
+  'Last Name',
+  'Starter',
+  'Main',
+  'Notes'
+];
+
 function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data;
 
   try {
@@ -45,6 +55,12 @@ function doPost(e) {
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'Invalid JSON' }))
       .setMimeType(ContentService.MimeType.JSON);
   }
+
+  if (data.kind === 'dinner_choice') {
+    return handleDinnerChoice(data);
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
   // Create headers if sheet is empty
   if (sheet.getLastRow() === 0) {
@@ -87,6 +103,39 @@ function doPost(e) {
       g.allergy || '',
       g.alcohol || '',
       i === 0 ? notes : ''  // notes only on first row
+    ]);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function handleDinnerChoice(data) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(DINNER_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(DINNER_SHEET_NAME);
+  }
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(DINNER_HEADERS);
+    sheet.getRange(1, 1, 1, DINNER_HEADERS.length).setFontWeight('bold');
+  }
+
+  var timestamp = data.timestamp || new Date().toISOString();
+  var email = data.email || '';
+  var notes = data.notes || '';
+  var guests = data.guests || [];
+
+  for (var i = 0; i < guests.length; i++) {
+    var g = guests[i];
+    sheet.appendRow([
+      timestamp,
+      email,
+      g.firstName || '',
+      g.lastName || '',
+      g.starter || '',
+      g.main || '',
+      i === 0 ? notes : ''
     ]);
   }
 

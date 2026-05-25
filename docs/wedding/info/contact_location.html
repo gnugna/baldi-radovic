@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonja &amp; Giacomo · Contact &amp; Location</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --birch-lt:#f5f0e8; --birch:#e8dfd0; --birch-dk:#d4c8b4;
+    --sage:#8fa68c; --sage-lt:#b8cbb5; --sage-dk:#6b8568;
+    --fern:#4d6b52; --fern-dk:#3a5240;
+    --moss:#2c3d2e; --moss-dk:#1e2b1f;
+    --azure:#CDDFE9; --pale-blue:#AEBED5; --grey-blue:#859BBA; --dark-blue:#404D77;
+    --ink:#222d23; --mid:#5a6b58;
+    --line:rgba(143,166,140,0.28); --line-blue:rgba(133,155,186,0.25);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--birch-lt); color: var(--ink);
+    font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  a { color: var(--grey-blue); text-decoration: none; }
+  a:hover { color: var(--fern); text-decoration: underline; }
+
+  /* ===== Shared site navigation ===== */
+  .site-nav { position: sticky; top: 0; z-index: 90; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); font-family: 'Jost', sans-serif; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; min-height: 3.4rem; }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--birch-lt); text-decoration: none; letter-spacing: 0.04em; white-space: nowrap; }
+  .nav-brand:hover { color: var(--sage-lt); text-decoration: none; }
+  .nav-toggle { display: none; background: none; border: none; color: var(--birch-lt); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.3rem 0.4rem; }
+  .nav-menu { display: flex; align-items: center; gap: 0.1rem; list-style: none; margin: 0; padding: 0; }
+  .nav-menu > li { position: relative; }
+  .nav-menu > li > a, .nav-parent { display: block; padding: 0.7rem 0.85rem; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(232,223,208,0.78); text-decoration: none; cursor: pointer; white-space: nowrap; background: none; border: none; font-family: 'Jost', sans-serif; }
+  .nav-menu > li > a:hover, .nav-parent:hover { color: var(--birch-lt); text-decoration: none; }
+  .nav-parent .caret { font-size: 0.85em; opacity: 0.6; margin-left: 0.2em; }
+  .nav-sub { position: absolute; top: 100%; left: 0; min-width: 210px; background: var(--moss-dk); border: 1px solid rgba(143,166,140,0.25); border-top: 2px solid var(--sage); border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0.3rem 0; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; z-index: 95; }
+  .has-sub:hover .nav-sub, .has-sub.open .nav-sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-sub li a { display: block; padding: 0.6rem 1.1rem; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(232,223,208,0.72); text-decoration: none; white-space: nowrap; }
+  .nav-sub li a:hover { background: rgba(143,166,140,0.16); color: var(--birch-lt); text-decoration: none; }
+  @media (max-width: 880px) {
+    .nav-toggle { display: block; }
+    .nav-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; background: var(--moss-dk); border-bottom: 1px solid rgba(143,166,140,0.2); padding: 0.4rem 0; max-height: 80vh; overflow-y: auto; }
+    .nav-menu.open { display: flex; }
+    .nav-menu > li > a, .nav-parent { padding: 0.85rem 1.2rem; font-size: 0.72rem; }
+    .nav-sub { position: static; opacity: 1; visibility: visible; transform: none; border: none; border-top: none; background: rgba(0,0,0,0.2); padding: 0; min-width: 0; }
+    .nav-sub li a { padding: 0.7rem 1.2rem 0.7rem 2.2rem; }
+    .nav-parent .caret { float: right; }
+  }
+
+  /* Hero */
+  .page-hero { background: var(--moss); color: var(--birch-lt); text-align: center; padding: 3.4rem 1.5rem 2.8rem; }
+  .hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--sage-lt); margin-bottom: 1rem; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2.3rem, 5.5vw, 3.4rem); line-height: 1.1; color: var(--birch-lt); }
+  .hero-title em { font-style: italic; color: var(--sage-lt); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.05rem; color: var(--sage-lt); margin-top: 0.8rem; }
+
+  section { padding: 4rem 1.5rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.9rem; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 300; line-height: 1.15; margin-bottom: 1.6rem; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--fern); }
+
+  /* Locations */
+  .locations { background: var(--birch-lt); }
+  .loc-card {
+    background: var(--birch); border: 1px solid var(--line); border-radius: 6px;
+    overflow: hidden; margin-bottom: 2rem; display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .loc-card:last-child { margin-bottom: 0; }
+  .loc-info { padding: 1.8rem 1.9rem; }
+  .loc-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.5rem; }
+  .loc-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: var(--ink); font-weight: 400; line-height: 1.15; margin-bottom: 0.7rem; }
+  .loc-addr { font-size: 0.95rem; color: var(--mid); line-height: 1.65; margin-bottom: 0.4rem; }
+  .loc-meta { font-size: 0.88rem; color: var(--sage-dk); line-height: 1.6; margin-bottom: 1rem; }
+  .loc-link {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #fff; background: var(--fern); padding: 0.6rem 1.2rem; border-radius: 2px;
+    text-decoration: none; transition: background 0.2s;
+  }
+  .loc-link:hover { background: var(--fern-dk); text-decoration: none; color: #fff; }
+  .loc-map { min-height: 280px; border: none; width: 100%; height: 100%; }
+  .loc-map-wrap { background: var(--birch-dk); min-height: 280px; }
+
+  /* Contacts */
+  .contacts { background: var(--moss); color: var(--birch-lt); }
+  .contacts .section-label { color: var(--sage-lt); }
+  .contacts .section-title { color: var(--birch-lt); }
+  .contacts .section-title em { color: var(--sage-lt); }
+  .contacts-intro { color: rgba(232,223,208,0.55); font-size: 0.98rem; font-style: italic; margin-bottom: 2.2rem; max-width: 560px; }
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; }
+  .contact-card {
+    background: rgba(143,166,140,0.08); border: 1px solid rgba(143,166,140,0.25);
+    border-radius: 6px; padding: 1.7rem 1.7rem;
+  }
+  .contact-role { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--sage-lt); margin-bottom: 0.4rem; }
+  .contact-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: var(--birch-lt); font-weight: 400; margin-bottom: 1rem; }
+  .contact-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; font-size: 0.96rem; }
+  .contact-row a { color: var(--birch-lt); text-decoration: none; }
+  .contact-row a:hover { color: var(--sage-lt); text-decoration: underline; }
+  .c-icon { width: 18px; height: 18px; color: var(--sage-lt); flex-shrink: 0; }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+    background: var(--sage-lt); color: var(--moss-dk);
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+    padding: 0.6rem 1.1rem; border-radius: 50px; text-decoration: none; transition: background 0.2s;
+  }
+  .wa-btn:hover { background: #cdddca; text-decoration: none; color: var(--moss-dk); }
+
+  footer {
+    background: var(--moss-dk); color: rgba(232,223,208,0.3);
+    text-align: center; padding: 2.6rem 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.14em;
+  }
+  footer span { color: var(--sage); }
+
+  @media (max-width: 760px) {
+    .loc-card { grid-template-columns: 1fr; }
+    .loc-map, .loc-map-wrap { min-height: 240px; }
+    section { padding: 3rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Sonja &amp; Giacomo</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navMenu').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="program.html">Program</a></li>
+      <li><a href="contact_location.html">Contact &amp; Location</a></li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Accommodation<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="villa_house_rules.html">Sleeping at the Villa</a></li>
+          <li><a href="hotel_guests_info.html">Sleeping at the B&amp;B</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Menu<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="saturday_pool_party_menu.html">Saturday Pool Gathering Menu</a></li>
+          <li><a href="saturday_dinner_menu.html">Saturday Dinner Menu</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <span class="nav-parent" onclick="this.parentElement.classList.toggle('open')">Recipes<span class="caret">&#9662;</span></span>
+        <ul class="nav-sub">
+          <li><a href="recipe_aperol_spritz.html">Aperol Spritz</a></li>
+          <li><a href="recipe_gin_tonic.html">Gin Tonic</a></li>
+          <li><a href="recipe_negroni.html">Negroni</a></li>
+          <li><a href="recipe_virgin_mojito.html">Virgin Mojito</a></li>
+          <li><a href="recipe_elderflower_cucumber.html">Elderflower &amp; Cucumber</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="hero-eyebrow">Find us</div>
+  <h1 class="hero-title">Contact &amp; <em>Location</em></h1>
+  <p class="hero-sub">Where everything happens — and how to reach us</p>
+</header>
+
+<section class="locations">
+  <div class="container">
+    <p class="section-label">Where to go</p>
+    <h2 class="section-title">The villa &amp; <em>the B&amp;B</em></h2>
+
+    <div class="loc-card">
+      <div class="loc-info">
+        <div class="loc-eyebrow">The celebrations</div>
+        <div class="loc-name">Relais Corte Benedetto</div>
+        <div class="loc-addr">Via delle Pollinelle, 19<br>55012 Capannori (LU), Tuscany, Italy</div>
+        <div class="loc-meta">All events happen here — 20 min from Lucca, ~1 hr from Pisa &amp; Florence. Parking is limited, so please carpool where you can.</div>
+        <a class="loc-link" href="https://www.google.com/maps/dir/?api=1&destination=Relais+Corte+Benedetto,+Via+delle+Pollinelle,+19,+55012+Capannori+LU,+Italy" target="_blank">Open in Google Maps &rarr;</a>
+      </div>
+      <div class="loc-map-wrap">
+        <iframe class="loc-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Relais+Corte+Benedetto,+Via+delle+Pollinelle,+19,+55012+Capannori+LU,+Italy&output=embed" title="Map to Relais Corte Benedetto"></iframe>
+      </div>
+    </div>
+
+    <div class="loc-card">
+      <div class="loc-info">
+        <div class="loc-eyebrow">Nearby accommodation</div>
+        <div class="loc-name">Casal Sant'Elena</div>
+        <div class="loc-addr">A country B&amp;B near Lucca<br>Spianate · Altopascio (LU), Tuscany, Italy</div>
+        <div class="loc-meta">Where our nearby guests are staying — a short drive from the villa, with breakfast included.</div>
+        <a class="loc-link" href="https://maps.app.goo.gl/mNYzuTrBGChg3bUj6" target="_blank">Open in Google Maps &rarr;</a>
+      </div>
+      <div class="loc-map-wrap">
+        <iframe class="loc-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Casal+Sant'Elena,+Spianate,+Altopascio,+Lucca,+Italy&output=embed" title="Map to Casal Sant'Elena"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contacts">
+  <div class="container">
+    <p class="section-label">Get in touch</p>
+    <h2 class="section-title">Reach <em>Sonja &amp; Giacomo</em></h2>
+    <p class="contacts-intro">Anything at all — questions, arrival times, a hiccup along the way — please reach out. WhatsApp is the quickest way to get us.</p>
+
+    <div class="contact-grid">
+
+      <div class="contact-card">
+        <div class="contact-role">The Bride</div>
+        <div class="contact-name">Sonja</div>
+        <div class="contact-row">
+          <span class="c-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <a href="tel:+381652058464">+381 65 2058464</a>
+        </div>
+        <a class="wa-btn" href="https://wa.me/381652058464" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.01c-.24.68-1.4 1.3-1.93 1.38-.5.07-1.12.1-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97s.74-2.11 1-2.4c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.69-.8.87-1.08.18-.28.36-.23.6-.14.24.09 1.55.73 1.81.87.26.14.44.21.5.32.07.12.07.66-.17 1.34z"/></svg>
+          Message on WhatsApp
+        </a>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-role">The Groom</div>
+        <div class="contact-name">Giacomo</div>
+        <div class="contact-row">
+          <span class="c-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <a href="tel:+393332207765">+39 333 2207765</a>
+        </div>
+        <a class="wa-btn" href="https://wa.me/393332207765" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.01c-.24.68-1.4 1.3-1.93 1.38-.5.07-1.12.1-1.81-.11-.42-.13-.95-.31-1.64-.6-2.88-1.24-4.76-4.14-4.9-4.33-.14-.19-1.17-1.56-1.17-2.97s.74-2.11 1-2.4c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.41-.07.65.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.17-.19.69-.8.87-1.08.18-.28.36-.23.6-.14.24.09 1.55.73 1.81.87.26.14.44.21.5.32.07.12.07.66-.17 1.34z"/></svg>
+          Message on WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  With all our love, <span>Sonja &amp; Giacomo</span> &nbsp;·&nbsp; Corte Benedetto, Tuscany &nbsp;·&nbsp; May 2026
+</footer>
+
+</body>
+</html>
